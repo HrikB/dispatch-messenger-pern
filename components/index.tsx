@@ -1,2 +1,3 @@
 export { default as Loading } from "./Loading";
-export { default as LoginBox } from "./LoginBox";
+
+export { AppInfo, LoginBox } from "./LandingPage";

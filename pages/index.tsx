@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
-import { LoginBox } from "../components";
+import { AppInfo, LoginBox } from "../components";
 
 const Home: NextPage = () => {
   return (
-    <div className="h-screen">
+    <div className="h-app w-app bg-background flex flex-row justify-center items-center">
+      <AppInfo />
       <LoginBox />
     </div>
   );
