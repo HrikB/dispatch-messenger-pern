@@ -1,7 +1,12 @@
 import type { NextPage } from "next";
+import { LoginBox } from "../components";
 
 const Home: NextPage = () => {
-  return <h1 className="font-extrabold">Hello World</h1>;
+  return (
+    <div className="h-screen">
+      <LoginBox />
+    </div>
+  );
 };
 
 export default Home;
