@@ -2,12 +2,15 @@
   "name": "asdsd",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "build:server": "tsc --project tsconfig.server.json",
+    "watch": "tsc --project tsconfig.server.json -w",
+    "dev": "ts-node --project tsconfig.server.json server/index.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "next": "12.0.8",
     "react": "17.0.2",
