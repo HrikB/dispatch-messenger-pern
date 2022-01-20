@@ -6,7 +6,7 @@ const buttonInputStyles = "box-border p-2.5 w-full my-1 rounded";
 const inputStyles =
   "focus:outline-none bg-input-bg border-input-border border-2 hover:border-black focus:border-focus text-sm";
 
-const LoginBox = () => {
+const LoginBox = ({ setRegisterModal }: any) => {
   const [logLoading, setLogLoading] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
@@ -58,7 +58,7 @@ const LoginBox = () => {
         </form>
 
         <button
-          className={`${buttonInputStyles} bg-dispatch mb-8 font-bold`}
+          className={`${buttonInputStyles} bg-dispatch mb-8 font-bold hover:bg-[#690169]`}
           onClick={signIn}
         >
           {logLoading ? <Loading /> : <h3>Log In</h3>}
@@ -72,7 +72,8 @@ const LoginBox = () => {
       </div>
       <div className="register__container border-t border-solid border-white flex flex-col justify-center items-center h-2/6">
         <button
-          className={`createNew__account ${buttonInputStyles} bg-[#008000] w-4/6 mt-6 mb-4 font-bold`}
+          onClick={() => setRegisterModal(true)}
+          className={`createNew__account ${buttonInputStyles} bg-[#008000] hover:bg-[#026802] w-4/6 mt-6 mb-4 font-bold`}
         >
           <h3>Create New Account</h3>
         </button>

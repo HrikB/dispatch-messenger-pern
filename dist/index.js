@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var next_1 = __importDefault(require("next"));
 var dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config;
+dotenv_1.default.config();
 var port = process.env.PORT || 3000;
 var dev = process.env.NODE_ENV !== "production";
 var app = (0, next_1.default)({ dir: ".", dev: dev });

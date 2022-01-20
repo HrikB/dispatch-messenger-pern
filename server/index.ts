@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import next from "next";
 import dotenv from "dotenv";
-dotenv.config;
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";

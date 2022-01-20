@@ -13,6 +13,9 @@ module.exports = {
         "input-border": "#080808",
         focus: "#006eff"
       },
+      fontSize: {
+        h1: "32px"
+      },
       fontFamily: {
         heading: "font-family: Arial, Helvetica, sans-serif",
       },
@@ -21,6 +24,12 @@ module.exports = {
       },
       width: {
         app: "90vw",
+      },
+      spacing: {
+        108: "27rem"
+      },
+      boxShadow: {
+        register: "0px 0px 5px 5px #454545"
       }
     },
   },
