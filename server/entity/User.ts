@@ -10,7 +10,7 @@ import { ObjectType, Field, ID } from "type-graphql";
 
 @Entity()
 @ObjectType()
-class User extends BaseEntity {
+class Users extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: string;
@@ -47,4 +47,4 @@ class User extends BaseEntity {
   friendsList: string[];
 }
 
-export default User;
+export default Users;

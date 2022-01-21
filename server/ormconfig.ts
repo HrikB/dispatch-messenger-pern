@@ -1,5 +1,5 @@
 import { ConnectionOptions } from "typeorm";
-import { User } from "./entity";
+import { Users } from "./entity";
 import path from "path";
 
 const isCompiled = path.extname(__filename).includes("js");
@@ -16,7 +16,7 @@ export default {
   autoReconnect: true,
   reconnectTries: Number.MAX_VALUE,
   reconnectInternal: 2000,
-  entities: [User],
+  entities: [Users],
   migrations: [`server/migration/**/*.${isCompiled ? "js" : "ts"}`],
   cli: {
     entitiesDir: "server/entity",

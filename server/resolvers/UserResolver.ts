@@ -1,11 +1,11 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
-import { User } from "../entity";
+import { Users } from "../entity";
 
 @Resolver()
 class UserResolver {
-  @Query(() => [User])
+  @Query(() => [Users])
   users() {
-    return User.find();
+    return Users.find();
   }
   @Mutation(() => Boolean)
   async registerUser(
@@ -14,7 +14,7 @@ class UserResolver {
     @Arg("email") email: string,
     @Arg("password") password: string
   ) {
-    await User.insert({ firstName, lastName, email, password });
+    await Users.insert({ firstName, lastName, email, password });
     return true;
   }
 }
