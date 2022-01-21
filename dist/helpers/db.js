@@ -39,52 +39,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
-var express_1 = __importDefault(require("express"));
-var type_graphql_1 = require("type-graphql");
-var apollo_server_express_1 = require("apollo-server-express");
-var next_1 = __importDefault(require("next"));
-var resolvers_1 = require("./resolvers");
-var dotenv_1 = __importDefault(require("dotenv"));
-var ormconfig_1 = __importDefault(require("./ormconfig"));
+exports.TryDBConnect = exports.DBConnect = void 0;
 var typeorm_1 = require("typeorm");
-dotenv_1.default.config();
-var port = process.env.PORT || 3000;
-var dev = process.env.NODE_ENV !== "production";
-var app = (0, next_1.default)({ dir: ".", dev: dev });
-var handle = app.getRequestHandler();
-app.prepare().then(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var app, schema, server;
+var ormconfig_1 = __importDefault(require("../ormconfig"));
+var DBConnect = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var connection, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                app = (0, express_1.default)();
-                return [4 /*yield*/, (0, typeorm_1.createConnection)(ormconfig_1.default)];
+                try {
+                    connection = (0, typeorm_1.getConnection)();
+                }
+                catch (err) { }
+                _a.label = 1;
             case 1:
-                _a.sent();
-                return [4 /*yield*/, (0, type_graphql_1.buildSchema)({
-                        resolvers: [resolvers_1.UserResolver],
-                    })];
+                _a.trys.push([1, 6, , 7]);
+                if (!connection) return [3 /*break*/, 5];
+                if (!!connection.isConnected) return [3 /*break*/, 3];
+                return [4 /*yield*/, connection.connect()];
             case 2:
-                schema = _a.sent();
-                server = new apollo_server_express_1.ApolloServer({
-                    schema: schema,
-                    context: function (_a) {
-                        var req = _a.req, res = _a.res;
-                        return ({ req: req, res: res });
-                    },
-                });
-                return [4 /*yield*/, server.start()];
-            case 3:
                 _a.sent();
-                server.applyMiddleware({ app: app });
-                app.all("*", function (req, res) {
-                    return handle(req, res);
-                });
-                app.listen(port, function () {
-                    console.log("> Ready on http://localhost:".concat(port));
-                });
-                return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 3: return [4 /*yield*/, (0, typeorm_1.createConnection)(ormconfig_1.default)];
+            case 4:
+                _a.sent();
+                _a.label = 5;
+            case 5:
+                console.log("Database connection was successful");
+                return [3 /*break*/, 7];
+            case 6:
+                err_1 = _a.sent();
+                console.error("ERROR: Database connection failed!", err_1);
+                throw err_1;
+            case 7: return [2 /*return*/];
         }
     });
-}); });
+}); };
+exports.DBConnect = DBConnect;
+var TryDBConnect = function (onError, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, exports.DBConnect)()];
+            case 1:
+                _a.sent();
+                if (next)
+                    next();
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                onError();
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.TryDBConnect = TryDBConnect;
+exports.default = exports.TryDBConnect;

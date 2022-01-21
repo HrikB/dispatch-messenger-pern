@@ -35,56 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
-var express_1 = __importDefault(require("express"));
-var type_graphql_1 = require("type-graphql");
-var apollo_server_express_1 = require("apollo-server-express");
-var next_1 = __importDefault(require("next"));
-var resolvers_1 = require("./resolvers");
-var dotenv_1 = __importDefault(require("dotenv"));
-var ormconfig_1 = __importDefault(require("./ormconfig"));
-var typeorm_1 = require("typeorm");
-dotenv_1.default.config();
-var port = process.env.PORT || 3000;
-var dev = process.env.NODE_ENV !== "production";
-var app = (0, next_1.default)({ dir: ".", dev: dev });
-var handle = app.getRequestHandler();
-app.prepare().then(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var app, schema, server;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                app = (0, express_1.default)();
-                return [4 /*yield*/, (0, typeorm_1.createConnection)(ormconfig_1.default)];
-            case 1:
-                _a.sent();
-                return [4 /*yield*/, (0, type_graphql_1.buildSchema)({
-                        resolvers: [resolvers_1.UserResolver],
-                    })];
-            case 2:
-                schema = _a.sent();
-                server = new apollo_server_express_1.ApolloServer({
-                    schema: schema,
-                    context: function (_a) {
-                        var req = _a.req, res = _a.res;
-                        return ({ req: req, res: res });
-                    },
-                });
-                return [4 /*yield*/, server.start()];
-            case 3:
-                _a.sent();
-                server.applyMiddleware({ app: app });
-                app.all("*", function (req, res) {
-                    return handle(req, res);
-                });
-                app.listen(port, function () {
-                    console.log("> Ready on http://localhost:".concat(port));
-                });
-                return [2 /*return*/];
-        }
-    });
-}); });
+exports.PostRefactoring1642723788384 = void 0;
+var PostRefactoring1642723788384 = /** @class */ (function () {
+    function PostRefactoring1642723788384() {
+    }
+    PostRefactoring1642723788384.prototype.up = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); });
+    };
+    PostRefactoring1642723788384.prototype.down = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); });
+    };
+    return PostRefactoring1642723788384;
+}());
+exports.PostRefactoring1642723788384 = PostRefactoring1642723788384;

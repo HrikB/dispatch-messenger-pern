@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import express, { Request, Response } from "express";
-import { createConnection } from "typeorm";
 import { buildSchema } from "type-graphql";
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import next from "next";
 import { UserResolver } from "./resolvers";
 import dotenv from "dotenv";
+import ORMConfig from "./ormconfig";
+import { createConnection } from "typeorm";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -14,12 +15,18 @@ const app = next({ dir: ".", dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
-  const connection = await createConnection();
+  const app = express();
+
+  await createConnection(ORMConfig);
+
   const schema = await buildSchema({
     resolvers: [UserResolver],
   });
-  const server = new ApolloServer({ schema });
-  const app = express();
+
+  const server = new ApolloServer({
+    schema,
+    context: ({ req, res }) => ({ req, res }),
+  });
   await server.start();
   server.applyMiddleware({ app });
 
