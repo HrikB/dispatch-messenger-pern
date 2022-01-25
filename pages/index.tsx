@@ -1,5 +1,9 @@
 import { useState } from "react";
-import type { NextPage } from "next";
+import type {
+  NextPage,
+  GetServerSideProps,
+  GetServerSidePropsContext,
+} from "next";
 import { AppInfo, LoginBox, RegisterBox } from "../components";
 
 const Home: NextPage = () => {
@@ -16,6 +20,16 @@ const Home: NextPage = () => {
       )}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  return {
+    props: {
+      data: "",
+    },
+  };
 };
 
 export default Home;
