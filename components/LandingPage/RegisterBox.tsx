@@ -1,7 +1,8 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { Loading } from "..";
 import { IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { useMutation } from "urql";
 
 const FIELDS = [
   "FIRST NAME",
@@ -11,29 +12,48 @@ const FIELDS = [
   "CONFIRM PASSWORD",
 ];
 
+const registerMutation = `mutation(
+  $confirmPassword: String!,
+  $password: String!,
+  $email: String!,
+  $lastName: String!,
+  $firstName: String!
+) {
+  registerUser(confirm_password: $confirmPassword, 
+               password: $password, 
+               email: $email, 
+               last_name: $lastName, 
+               first_name: $firstName)
+}`;
+
 const RegisterBox = ({ setRegisterModal }: any) => {
+  const [registerResult, register] = useMutation(registerMutation);
+
   const fieldState = [
-    useState(""),
-    useState(""),
-    useState(""),
-    useState(""),
-    useState(""),
+    useState("asd"),
+    useState("asd"),
+    useState("c@gmail.com"),
+    useState("aaaaaaa"),
+    useState("aaaaaaaa"),
   ];
 
-  const signUp = () => {
+  const signUp = async () => {
+    const res = await register({
+      firstName: fieldState[0][0],
+      lastName: fieldState[1][0],
+      email: fieldState[2][0],
+      password: fieldState[3][0],
+      confirmPassword: fieldState[4][0],
+    });
+
+    console.log(res);
+
     setRegisterModal(false);
   };
 
-  // const [
-  //   [firstName, setFirstName],
-  //   [lastName, setLastName],
-  //   [email, setEmail],
-  //   [password, setPassword],
-  //   [confirmPassword, setConfirmPassword],
-  // ] = fieldState;
-
   return (
     <form className="relative w-108 h-fit rounded-md shadow-register bg-secondary box-border px-4 py-2.5">
+      {console.log(registerResult)}
       <div className="absolute right-0">
         <IconButton onClick={() => setRegisterModal(false)}>
           <Close />

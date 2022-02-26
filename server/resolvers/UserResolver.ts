@@ -1,6 +1,8 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
 import { Users } from "../entity";
+import { registerSchema } from "../helpers";
 import bcrypt from "bcrypt";
+import { UserInputError } from "apollo-server-express";
 
 @Resolver()
 class UserResolver {
@@ -14,29 +16,27 @@ class UserResolver {
     @Arg("last_name") lastName: string,
     @Arg("email") email: string,
     @Arg("password") password: string,
-    @Arg("confirm_passwrd") confirm_password: string
+    @Arg("confirm_password") confirmPassword: string
   ) {
-    if (password !== confirm_password)
-      return {
-        errors: [
-          {
-            path: "confirm_password",
-            message: "Both password need to match",
-          },
-        ],
-      };
+    const validation = await registerSchema.validateAsync({
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+    });
 
-    const existingUser = await Users.findOne({ email });
+    const existingUser = await Users.findOne({ email: validation.email });
 
-    if (existingUser)
-      return {
-        errors: [
-          {
-            path: "email",
-            message: "already in use",
-          },
-        ],
-      };
+    if (existingUser) throw new UserInputError("email already exists");
+    // return {
+    //   errors: [
+    //     {
+    //       path: "email",
+    //       message: "already in use",
+    //     },
+    //   ],
+    // };
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
