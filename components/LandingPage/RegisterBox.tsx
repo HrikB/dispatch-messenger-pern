@@ -38,8 +38,16 @@ const RegisterBox = ({ setRegisterModal }: any) => {
     useState("aaaaaaaa"),
   ];
 
+  const errorState = [
+    useState(""),
+    useState(""),
+    useState(""),
+    useState(""),
+    useState(""),
+  ];
+
   const signUp = async () => {
-    const { data, error } = await register({
+    const { error } = await register({
       firstName: fieldState[0][0],
       lastName: fieldState[1][0],
       email: fieldState[2][0],
@@ -53,10 +61,35 @@ const RegisterBox = ({ setRegisterModal }: any) => {
       const errMsg = details.message;
       console.log(erroredField, errMsg);
 
+      //clear all messages
+      errorState.forEach((state) => state[1](""));
+
+      switch (erroredField) {
+        case "firstName":
+          errorState[0][1](errMsg);
+          break;
+        case "lastName":
+          errorState[1][1](errMsg);
+          break;
+        case "email":
+          errorState[2][1](errMsg);
+          break;
+        case "password":
+          errorState[3][1](errMsg);
+          break;
+        case "confirmPassword":
+          errorState[4][1](errMsg);
+          break;
+      }
+
       return;
     }
 
     setRegisterModal(false);
+  };
+
+  const setRegDefaults = () => {
+    errorState.forEach((state) => state[1](""));
   };
 
   return (
@@ -74,11 +107,18 @@ const RegisterBox = ({ setRegisterModal }: any) => {
 
       {FIELDS.map((field, i) => (
         <div key={field}>
-          <p className="my-0.5 text-sm">{`${field}`}</p>
+          <p
+            className={`my-0.5 text-sm ${
+              errorState[i][0] !== "" ? "text-red-600" : ""
+            }`}
+          >
+            {field} {errorState[i][0] !== "" ? `- ${errorState[i][0]}` : ""}
+          </p>
           <input
             type={field.includes("PASSWORD") ? "password" : "text"}
             className="p-2.5 w-full h-11 outline-none mb-1 rounded bg-input-bg border-input-border border-2"
             onChange={(e) => {
+              setRegDefaults();
               return fieldState[i][1](e.target.value);
             }}
             value={fieldState[i][0]}
