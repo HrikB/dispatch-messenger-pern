@@ -28,6 +28,7 @@ const registerMutation = `mutation(
 
 const RegisterBox = ({ setRegisterModal }: any) => {
   const [registerResult, register] = useMutation(registerMutation);
+  const { fetching } = registerResult;
 
   const fieldState = [
     useState("asd"),
@@ -38,15 +39,22 @@ const RegisterBox = ({ setRegisterModal }: any) => {
   ];
 
   const signUp = async () => {
-    const res = await register({
+    const { data, error } = await register({
       firstName: fieldState[0][0],
       lastName: fieldState[1][0],
       email: fieldState[2][0],
       password: fieldState[3][0],
       confirmPassword: fieldState[4][0],
     });
+    if (error) {
+      console.log(error);
+      const details = error.graphQLErrors[0].extensions.exception.details[0];
+      const erroredField = details.path[0];
+      const errMsg = details.message;
+      console.log(erroredField, errMsg);
 
-    console.log(res);
+      return;
+    }
 
     setRegisterModal(false);
   };
@@ -83,7 +91,7 @@ const RegisterBox = ({ setRegisterModal }: any) => {
         className="w-1/2 bg-[#008000] hover:bg-[#026802] self-center block my-1 mx-auto box-border p-2.5 rounded"
         onClick={signUp}
       >
-        <h3 className="font-bold">Sign Up</h3>
+        <h3 className="font-bold">{fetching ? <Loading /> : `Sign Up`}</h3>
       </button>
     </form>
   );

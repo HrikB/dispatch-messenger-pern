@@ -28,15 +28,17 @@ class UserResolver {
 
     const existingUser = await Users.findOne({ email: validation.email });
 
-    if (existingUser) throw new UserInputError("email already exists");
-    // return {
-    //   errors: [
-    //     {
-    //       path: "email",
-    //       message: "already in use",
-    //     },
-    //   ],
-    // };
+    if (existingUser)
+      throw new UserInputError("email already exists", {
+        exception: {
+          details: [
+            {
+              message: "email already exists",
+              path: ["email"],
+            },
+          ],
+        },
+      });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
