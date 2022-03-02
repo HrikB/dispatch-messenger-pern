@@ -1,67 +1,102 @@
 import { useState } from "react";
 import { Loading } from "..";
+import { useMutation } from "urql";
 
 const buttonInputStyles = "box-border p-2.5 w-full my-1 rounded";
 
 const inputStyles =
-  "focus:outline-none bg-input-bg border-input-border border-2 hover:border-black focus:border-focus text-sm";
+  "focus:outline-none bg-input-bg border-input-border border-2 focus:border-focus text-sm";
+
+const FIELDS = ["EMAIL", "PASSWORD"];
+
+const loginMutation = `mutation(
+  $email: String!,
+  $password: String!
+) {
+  loginUser(
+    email: $email,
+    password: $password
+  ) {
+    id
+  }
+}`;
 
 const LoginBox = ({ setRegisterModal }: any) => {
-  const [logLoading, setLogLoading] = useState<boolean>(false);
+  const [loginResult, login] = useMutation(loginMutation);
+  const { fetching } = loginResult;
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const fieldState = FIELDS.map(() => useState<string>(""));
+  const errorState = FIELDS.map(() => useState<string>(""));
 
-  const signIn = () => {};
+  const signIn = async () => {
+    const { data, error } = await login({
+      email: fieldState[0][0],
+      password: fieldState[1][0],
+    });
 
-  const setLogDefaults = () => {};
+    if (error) {
+      console.log(error);
+      const details = error.graphQLErrors[0].extensions.exception.details[0];
+      const erroredField = details.path[0];
+      const errMsg = details.message;
+
+      //clear all messages
+      setLogDefaults();
+
+      switch (erroredField) {
+        case "email":
+          errorState[0][1](errMsg);
+          break;
+        case "password":
+          errorState[1][1](errMsg);
+          break;
+      }
+
+      return;
+    }
+
+    console.log(data);
+  };
+
+  const setLogDefaults = () => {
+    errorState.forEach((state) => state[1](""));
+  };
+
   return (
     <div className="userInteract__container box-border px-4 pt-2 pb-0 bg-secondary h-fit rounded w-96 shadow-md shadow-gray-600">
-      <div className="login__container py-2   h-fit">
-        <p className="text-sm" /*style={{ color: logEmailError && "red" }}*/>
-          EMAIL
-          {/* {logEmailError && ` - ${logEmailErrorMessage}`} */}
-        </p>
-        <form className="" onSubmit={signIn}>
-          <input
-            // style={{
-            //   border: logEmailError && "2px solid red",
-            // }}
-            type="text"
-            className={`${buttonInputStyles} ${inputStyles}`}
-            value={email}
-            onChange={(e) => {
-              setLogDefaults();
-              setEmail(e.target.value);
-            }}
-          />
-        </form>
-
-        <p className="text-sm" /*style={{ color: logPasswordError && "red" }}*/>
-          PASSWORD
-          {/* {logPasswordError && ` - ${logPasswordErrorMessage}`} */}
-        </p>
-        <form className="" onSubmit={signIn}>
-          <input
-            // style={{
-            //   border: logPasswordError && "2px solid red",
-            //   transition: logPasswordError && "0s",
-            // }}
-            type="password"
-            className={`${buttonInputStyles} ${inputStyles}`}
-            value={password}
-            onChange={(e) => {
-              setLogDefaults();
-              setPassword(e.target.value);
-            }}
-          />
-        </form>
+      <div className="login__container py-2 h-fit">
+        {FIELDS.map((field, i) => (
+          <div key={field}>
+            <p
+              className={`text-sm ${
+                errorState[i][0] !== "" ? "text-red-600" : ""
+              }`}
+            >
+              {field} {errorState[i][0] !== "" ? `- ${errorState[i][0]}` : ""}
+            </p>
+            <form className="" onSubmit={signIn}>
+              <input
+                type={field.includes("PASSWORD") ? "password" : "text"}
+                className={`${buttonInputStyles} ${inputStyles} ${
+                  errorState[i][0] !== ""
+                    ? "border-red-600"
+                    : "border-input-border"
+                } `}
+                value={fieldState[i][0]}
+                onChange={(e) => {
+                  setLogDefaults();
+                  fieldState[i][1](e.target.value);
+                }}
+              />
+            </form>
+          </div>
+        ))}
 
         <button
           className={`${buttonInputStyles} bg-dispatch mb-8 font-bold hover:bg-[#690169]`}
           onClick={signIn}
         >
-          {logLoading ? <Loading /> : <h3>Log In</h3>}
+          {fetching ? <Loading /> : <h3>Log In</h3>}
         </button>
         {/* <h5
               className="error__message"

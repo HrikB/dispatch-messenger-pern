@@ -19,32 +19,30 @@ const registerMutation = `mutation(
   $lastName: String!,
   $firstName: String!
 ) {
-  registerUser(confirm_password: $confirmPassword, 
-               password: $password, 
-               email: $email, 
-               last_name: $lastName, 
-               first_name: $firstName)
+  registerUser(
+    confirm_password: $confirmPassword, 
+    password: $password, 
+    email: $email, 
+    last_name: $lastName, 
+    first_name: $firstName
+    )
 }`;
 
 const RegisterBox = ({ setRegisterModal }: any) => {
   const [registerResult, register] = useMutation(registerMutation);
   const { fetching } = registerResult;
 
-  const fieldState = [
-    useState("asd"),
-    useState("asd"),
-    useState("c@gmail.com"),
-    useState("aaaaaaa"),
-    useState("aaaaaaaa"),
-  ];
+  const fieldState = FIELDS.map(() => useState<string>(""));
 
-  const errorState = [
-    useState(""),
-    useState(""),
-    useState(""),
-    useState(""),
-    useState(""),
-  ];
+  // const fieldState = [
+  //   useState("asd"),
+  //   useState("asd"),
+  //   useState("c@gmail.com"),
+  //   useState("aaaaaaa"),
+  //   useState("aaaaaaaa"),
+  // ];
+
+  const errorState = FIELDS.map(() => useState<string>(""));
 
   const signUp = async () => {
     const { error } = await register({
@@ -54,15 +52,14 @@ const RegisterBox = ({ setRegisterModal }: any) => {
       password: fieldState[3][0],
       confirmPassword: fieldState[4][0],
     });
+
     if (error) {
-      console.log(error);
       const details = error.graphQLErrors[0].extensions.exception.details[0];
       const erroredField = details.path[0];
       const errMsg = details.message;
-      console.log(erroredField, errMsg);
 
       //clear all messages
-      errorState.forEach((state) => state[1](""));
+      setRegDefaults();
 
       switch (erroredField) {
         case "firstName":
@@ -94,7 +91,6 @@ const RegisterBox = ({ setRegisterModal }: any) => {
 
   return (
     <form className="relative w-108 h-fit rounded-md shadow-register bg-secondary box-border px-4 py-2.5">
-      {console.log(registerResult)}
       <div className="absolute right-0">
         <IconButton onClick={() => setRegisterModal(false)}>
           <Close />
@@ -116,7 +112,9 @@ const RegisterBox = ({ setRegisterModal }: any) => {
           </p>
           <input
             type={field.includes("PASSWORD") ? "password" : "text"}
-            className="p-2.5 w-full h-11 outline-none mb-1 rounded bg-input-bg border-input-border border-2"
+            className={`p-2.5 w-full h-11 outline-none mb-1 rounded bg-input-bg ${
+              errorState[i][0] !== "" ? "border-red-600" : "border-input-border"
+            } border-2`}
             onChange={(e) => {
               setRegDefaults();
               return fieldState[i][1](e.target.value);

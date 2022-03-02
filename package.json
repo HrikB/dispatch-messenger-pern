@@ -4,7 +4,7 @@
   "scripts": {
     "build:server": "tsc --project tsconfig.server.json",
     "watch": "tsc --project tsconfig.server.json -w",
-    "dev": "nodemon dist/index.js",
+    "dev": "nodemon dist/index.js ",
     "dev2": "ts-node --project tsconfig.server.json server/index.ts",
     "create:migration": "typeorm migration:create -n PostRefactoring",
     "build": "next build",
