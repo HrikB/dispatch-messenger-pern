@@ -1,8 +1,9 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
 import { Users } from "../entity";
-import { registerSchema } from "../helpers";
+import { loginSchema, registerSchema, signAccessToken } from "../helpers";
 import bcrypt from "bcrypt";
-import { UserInputError } from "apollo-server-express";
+import { AuthenticationError, UserInputError } from "apollo-server-express";
+import { MyContext } from "../types";
 
 @Resolver()
 class UserResolver {
@@ -10,6 +11,47 @@ class UserResolver {
   users() {
     return Users.find();
   }
+
+  @Mutation(() => Users)
+  async loginUser(
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Ctx() { req, res }: MyContext
+  ) {
+    const validation = await loginSchema.validateAsync({ email, password });
+    const user = await Users.findOne({ email: validation.email });
+    if (!user)
+      throw new AuthenticationError("user not registered", {
+        exception: {
+          details: [
+            {
+              message: "user not registered",
+              path: ["email"],
+            },
+          ],
+        },
+      });
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword)
+      throw new AuthenticationError("username/password incorrect", {
+        exception: {
+          details: [
+            {
+              message: "username/password incorrect",
+              path: ["none"],
+            },
+          ],
+        },
+      });
+    const accessToken = await signAccessToken(user.id);
+    res.cookie("accessToken", accessToken, {
+      sameSite: "strict",
+      httpOnly: true,
+    });
+    return user;
+  }
+
   @Mutation(() => Boolean)
   async registerUser(
     @Arg("first_name") firstName: string,

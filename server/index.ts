@@ -7,6 +7,7 @@ import { UserResolver } from "./resolvers";
 import dotenv from "dotenv";
 import ORMConfig from "./ormconfig";
 import { createConnection } from "typeorm";
+import { MyContext } from "./types";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -16,8 +17,11 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const app = express();
-
-  await createConnection(ORMConfig);
+  try {
+    await createConnection(ORMConfig);
+  } catch (err) {
+    console.log(err);
+  }
 
   const schema = await buildSchema({
     resolvers: [UserResolver],
@@ -25,7 +29,7 @@ app.prepare().then(async () => {
 
   const server = new ApolloServer({
     schema,
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }): MyContext => ({ req, res }),
   });
   await server.start();
   server.applyMiddleware({ app });
