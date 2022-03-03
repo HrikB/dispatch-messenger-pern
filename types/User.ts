@@ -8,3 +8,5 @@ export interface User {
   profilePic: string;
   friendsList: string[];
 }
+
+export default User;
