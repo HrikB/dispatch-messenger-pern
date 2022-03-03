@@ -8,6 +8,8 @@ module.exports = {
         dispatch: "#800080",
         background: "#4c4c4c",
         sidebar: "#252525",
+        search: "#454545",
+        searchHover: "#403d3d",
 
         //input styles
         "input-bg": "#181818",
