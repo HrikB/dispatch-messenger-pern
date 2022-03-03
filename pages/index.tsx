@@ -5,12 +5,15 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 import { AppInfo, LoginBox, RegisterBox } from "../components";
+import { useAppSelector } from "../redux";
 
 const Home: NextPage = () => {
   const [registerModal, setRegisterModal] = useState<boolean>(false);
+  const user = useAppSelector((state) => state.userReducer.user);
 
   return (
     <div className="h-app w-app bg-background flex flex-row justify-center items-center">
+      {console.log(user)}
       <AppInfo />
       <LoginBox setRegisterModal={setRegisterModal} />
       {registerModal && (

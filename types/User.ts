@@ -7,6 +7,7 @@ export interface User {
   email: string;
   profilePic: string;
   friendsList: string[];
+  __typename: string; //graphql
 }
 
 export default User;

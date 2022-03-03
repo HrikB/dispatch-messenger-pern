@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Loading } from "..";
 import { useMutation } from "urql";
+import { User } from "../../types";
+import { useAppDispatch } from "../../redux";
+import { setUserAction } from "../../redux/actions";
 
 const buttonInputStyles = "box-border p-2.5 w-full my-1 rounded";
 
@@ -18,12 +21,20 @@ const loginMutation = `mutation(
     password: $password
   ) {
     id
+    createdAt
+    updatedAt
+    lastName
+    firstName
+    email
+    friendsList
   }
 }`;
 
 const LoginBox = ({ setRegisterModal }: any) => {
   const [loginResult, login] = useMutation(loginMutation);
   const { fetching } = loginResult;
+
+  const dispatch = useAppDispatch();
 
   const fieldState = FIELDS.map(() => useState<string>(""));
   const errorState = FIELDS.map(() => useState<string>(""));
@@ -55,7 +66,8 @@ const LoginBox = ({ setRegisterModal }: any) => {
       return;
     }
 
-    console.log(data);
+    const user: User = data.loginUser;
+    dispatch(setUserAction(user));
   };
 
   const setLogDefaults = () => {
