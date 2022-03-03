@@ -6,7 +6,7 @@ module.exports = {
         primary: "var(--primary)",
         secondary: "#202020",
         dispatch: "#800080",
-        background: "#000",
+        background: "#4c4c4c",
 
         //input styles
         "input-bg": "#181818",
@@ -29,7 +29,8 @@ module.exports = {
         108: "27rem"
       },
       boxShadow: {
-        register: "0px 0px 5px 5px #454545"
+        register: "0px 0px 5px 5px #454545",
+        app: "0px 0px 40px 6px #000"
       }
     },
   },
