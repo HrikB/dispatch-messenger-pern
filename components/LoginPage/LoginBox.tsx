@@ -40,10 +40,11 @@ const LoginBox = ({ setRegisterModal }: any) => {
   const errorState = FIELDS.map(() => useState<string>(""));
 
   const signIn = async () => {
-    const { data, error } = await login({
+    const obj = await login({
       email: fieldState[0][0],
       password: fieldState[1][0],
     });
+    const { data, error } = obj;
 
     if (error) {
       console.log(error);

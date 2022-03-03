@@ -7,6 +7,7 @@ module.exports = {
         secondary: "#202020",
         dispatch: "#800080",
         background: "#4c4c4c",
+        sidebar: "#252525",
 
         //input styles
         "input-bg": "#181818",

@@ -10,7 +10,7 @@ const Login: NextPage = () => {
   const [registerModal, setRegisterModal] = useState<boolean>(false);
 
   return (
-    <div className="h-app w-app bg-black flex flex-row justify-center items-center">
+    <div className="h-screen w-screen bg-black flex flex-row justify-center items-center">
       <AppInfo />
       <LoginBox setRegisterModal={setRegisterModal} />
       {registerModal && (
