@@ -10,7 +10,7 @@ import { createConnection } from "typeorm";
 import { MyContext } from "./types";
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dir: ".", dev });
 const handle = app.getRequestHandler();

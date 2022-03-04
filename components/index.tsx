@@ -2,4 +2,4 @@ export { default as Loading } from "./Loading";
 
 export { AppInfo, LoginBox, RegisterBox } from "./LoginPage";
 
-export { Dashboard } from "./Dashboard";
+export { default as Dashboard } from "./Dashboard";

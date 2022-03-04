@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Loading } from "..";
 import { useMutation } from "urql";
 import { User } from "../../types";
@@ -39,7 +39,12 @@ const LoginBox = ({ setRegisterModal }: any) => {
   const fieldState = FIELDS.map(() => useState<string>(""));
   const errorState = FIELDS.map(() => useState<string>(""));
 
-  const signIn = async () => {
+  const signIn = async (
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
     const obj = await login({
       email: fieldState[0][0],
       password: fieldState[1][0],

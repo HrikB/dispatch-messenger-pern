@@ -2,7 +2,7 @@ import { IconButton, Avatar } from "@mui/material";
 
 function Header() {
   return (
-    <div className="flex justify-between items-center w-full px-4 mt-1">
+    <div className="flex justify-between items-center w-full px-2 mt-1">
       <IconButton>
         <Avatar className="relative max-w-[32px] max-h-[32px]" />
       </IconButton>

@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Search from "./Search";
 import FriendsTab from "./FriendsTab";
+import Conversations from "./Conversations";
 
 function Sidebar() {
   return (
@@ -9,6 +10,7 @@ function Sidebar() {
       <Header />
       <Search />
       <FriendsTab />
+      <Conversations />
     </div>
   );
 }
