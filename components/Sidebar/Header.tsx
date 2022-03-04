@@ -9,19 +9,33 @@ const buttonCSS =
 function Header() {
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
   const openProfile = useDelayUnmount(isOpenMounted, 200);
-  const openRef = useRef(null);
-  const outOfOpenBounds = useOutOfBoundsClick(openRef);
+  const openRef = useRef<HTMLDivElement>(null);
+  useOutOfBoundsClick(openRef, () => setIsOpenMounted(false));
 
-  useEffect(() => {
-    if (outOfOpenBounds) setIsOpenMounted(false);
-  }, [outOfOpenBounds]);
+  const [isUpdateMounted, setIsUpdateMounted] = useState<boolean>(false);
+  const openUpdate = useDelayUnmount(isUpdateMounted, 200);
+  const updateRef = useRef<HTMLDivElement>(null);
+  useOutOfBoundsClick(updateRef, () => setIsUpdateMounted(false));
 
-  const updateProfile = () => {};
+  // useEffect(() => {
+  //   if (outOfOpenBounds) setIsOpenMounted(false);
+  // }, [outOfOpenBounds]);
+
+  // useEffect(() => {
+  //   console.log(outOfUpdateBounds, openRef);
+  //   if (outOfUpdateBounds && !openRef) setIsUpdateMounted(false);
+  // }, [outOfUpdateBounds]);
+
+  const updateProfile = () => {
+    setIsOpenMounted(false);
+    setIsUpdateMounted(true);
+  };
 
   const logOut = () => {};
 
   return (
     <div className="flex justify-between items-center w-full px-2 mt-1">
+      {openUpdate && <Profile ref={updateRef} />}
       <IconButton>
         <Avatar
           onClick={() => setIsOpenMounted(!isOpenMounted)}

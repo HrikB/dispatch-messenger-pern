@@ -1,23 +1,23 @@
 import { useState, useEffect, MutableRefObject } from "react";
 
-const useOutOfBoundsClick = (ref: MutableRefObject<any>) => {
-  const [outside, setOutside] = useState<boolean>(false);
-  console.log("inside", ref);
+const useOutOfBoundsClick = (
+  ref: MutableRefObject<any>,
+  cb: (e: any) => any
+) => {
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside, false);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, []);
+  }, [ref, cb]);
 
   const handleClickOutside = (e: any) => {
-    if (!ref.current) return setOutside(false);
-
-    if (!ref.current.contains(e.target)) setOutside(true);
-    else setOutside(false);
+    console.log(ref.current, e.target);
+    if (!ref.current || ref.current.contains(e.target)) return;
+    cb(e);
   };
-
-  return outside;
 };
 
 export default useOutOfBoundsClick;
