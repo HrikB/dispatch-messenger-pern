@@ -1,6 +1,6 @@
 import { IconButton, Avatar } from "@mui/material";
-import { useState } from "react";
-import { useDelayUnmount } from "../../hooks";
+import { useState, useRef, useEffect } from "react";
+import { useDelayUnmount, useOutOfBoundsClick } from "../../hooks";
 import Profile from "./Profile";
 
 const buttonCSS =
@@ -9,6 +9,12 @@ const buttonCSS =
 function Header() {
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
   const openProfile = useDelayUnmount(isOpenMounted, 200);
+  const openRef = useRef(null);
+  const outOfOpenBounds = useOutOfBoundsClick(openRef);
+
+  useEffect(() => {
+    if (outOfOpenBounds) setIsOpenMounted(false);
+  }, [outOfOpenBounds]);
 
   const updateProfile = () => {};
 
@@ -23,6 +29,7 @@ function Header() {
         />
         {openProfile && (
           <div
+            ref={openRef}
             className={`${
               !isOpenMounted ? "animate-fade-out" : "animate-fade-in"
             } box-border p-[.4375rem] absolute bg-[#171717] top-full left-1/2 w-fit cursor-auto whitespace-nowrap flex flex-col rounded items-center`}
