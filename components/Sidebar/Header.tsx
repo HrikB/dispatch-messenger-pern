@@ -1,4 +1,6 @@
 import { IconButton, Avatar } from "@mui/material";
+import { useState } from "react";
+import Profile from "./Profile";
 
 function Header() {
   return (
