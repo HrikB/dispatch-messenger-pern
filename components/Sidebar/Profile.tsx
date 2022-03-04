@@ -1,9 +1,13 @@
 import { ForwardedRef, forwardRef } from "react";
 
-const Profile = forwardRef((props, ref) => {
+export interface ProfileProps {
+  className: string;
+}
+
+const Profile = forwardRef(({ className }: ProfileProps, ref) => {
   return (
     <div
-      className="absolute top-1/2 left-1/2 w-16 h-16 bg-white z-10"
+      className={`absolute top-1/2 left-1/2 w-16 h-16 bg-white z-10 ${className}`}
       ref={ref as ForwardedRef<HTMLDivElement>}
     ></div>
   );
