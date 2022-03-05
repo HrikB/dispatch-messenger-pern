@@ -44,7 +44,7 @@ function Header() {
             ref={openRef}
             className={`${
               !isOpenMounted ? "animate-fade-out" : "animate-fade-in"
-            } box-border p-[.4375rem] absolute bg-[#171717] top-full left-1/2 w-fit cursor-auto whitespace-nowrap flex flex-col rounded items-center`}
+            } box-border p-[.4375rem] absolute bg-tertiary top-full left-1/2 w-fit cursor-auto whitespace-nowrap flex flex-col rounded items-center`}
           >
             <button className={`${buttonCSS}`} onClick={updateProfile}>
               Update Profile

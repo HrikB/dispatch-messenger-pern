@@ -5,11 +5,13 @@ module.exports = {
       colors: {
         primary: "var(--primary)",
         secondary: "#202020",
+        tertiary: "#171717",
         dispatch: "#800080",
         background: "#4c4c4c",
         sidebar: "#252525",
         search: "#454545",
         searchHover: "#403d3d",
+        modalBack: "rgba(128, 128, 128, 0.5)",
 
         //input styles
         "input-bg": "#181818",
@@ -55,7 +57,7 @@ module.exports = {
       },
       animation: {
         "fade-in": "fade-in 0.2s ease-in",
-        "fade-out": "fade-out 0.2s"
+        "fade-out": "fade-out 0.2s ease-out"
       }
     },
   },
