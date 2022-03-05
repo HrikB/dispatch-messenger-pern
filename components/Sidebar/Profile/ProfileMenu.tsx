@@ -2,13 +2,13 @@ import React, { ForwardedRef, forwardRef, useState, useRef } from "react";
 import PreviewImage from "./PreviewImage";
 import { IconButton, Avatar } from "@mui/material";
 
-export interface ProfileProps {
+export interface ProfileMenuProps {
   className: string;
 }
 
 const profileFields = ["first name", "last name", "email"];
 
-const Profile = forwardRef(({ className }: ProfileProps, ref) => {
+const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
   const [previewImage, setPreviewImage] = useState<boolean>(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -79,4 +79,4 @@ const Profile = forwardRef(({ className }: ProfileProps, ref) => {
   );
 });
 
-export default Profile;
+export default ProfileMenu;
