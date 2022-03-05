@@ -13,6 +13,12 @@ module.exports = {
         searchHover: "#403d3d",
         modalBack: "rgba(128, 128, 128, 0.5)",
 
+        "prof-info-background": "rgb(48, 48, 48)",
+        "prof-info-heading": "rgb(187, 187, 187)",
+        "prof-lower-background": "rgb(2, 2, 2)",
+        "button-hover": "rgb(85, 0, 85)",
+        editPicture: "rgba(47, 79, 79, 0.9)",
+
         //input styles
         "input-bg": "#181818",
         "input-border": "#080808",

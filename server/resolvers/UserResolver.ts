@@ -18,7 +18,6 @@ class UserResolver {
     @Arg("password") password: string,
     @Ctx() { req, res }: MyContext
   ) {
-    console.log("running login mutation");
     const validation = await loginSchema.validateAsync({ email, password });
     const user = await Users.findOne({ email: validation.email });
     if (!user)

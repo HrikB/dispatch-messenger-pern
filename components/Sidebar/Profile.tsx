@@ -6,11 +6,13 @@ export interface ProfileProps {
   className: string;
 }
 
+const profileFields = ["first name", "last name", "email"];
+
 const Profile = forwardRef(({ className }: ProfileProps, ref) => {
   const [previewImage, setPreviewImage] = useState<boolean>(false);
-  const fileInput = useRef(null);
+  const fileInput = useRef<HTMLInputElement>(null);
 
-  const uploadFile = () => {};
+  const editProfileInfo = (toEdit: string): void => {};
 
   const preview = () => {};
 
@@ -22,32 +24,22 @@ const Profile = forwardRef(({ className }: ProfileProps, ref) => {
         className="box-border p-2.5 rounded-lg absolute w-[40rem] table top-1/2 bg-tertiary z-10 inset-x-0 translate-y-[-50%] my-0 mx-auto"
         ref={ref as ForwardedRef<HTMLDivElement>}
       >
-        <h3>Update Profile</h3>
+        <h3 className="text-[1.1875rem] font-bold">Update Profile</h3>
         {previewImage ? (
           <PreviewImage />
         ) : (
           <>
             <div className="box-border table-row max-h-[50vh]">
-              <div className="h-3/4 w-full absolute top-1/4 bg-[rgb(2, 2, 2)] rounded-b-lg ml-[-10px] z-[-1]" />
+              <div className="h-3/4 w-full absolute top-1/4 bg-prof-lower-background rounded-b-lg ml-[-10px] z-[-1]" />
               <label
                 htmlFor="file__input"
                 className="group hover:cursor-pointer inline-block h-fit my-[15px] rounded-[50%] border-[10px] border-solid border-black"
-                onClick={uploadFile}
+                onClick={() => fileInput.current && fileInput.current.click()}
               >
                 <IconButton className="!p-0">
-                  <Avatar className="!w-32 !h-32">
-                    <svg
-                      //@ts-ignore
-                      class="MuiSvgIcon-root MuiAvatar-fallback"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
-                    </svg>
-                  </Avatar>
-                  <div className="pointer-events-none absolute bottom-0 h-full rounded-[50%] w-full transition-[ease] duration-[200ms] opacity-0 bg-[rgba(47, 79, 79, 0.9)] flex flex-col z-10 justify-center items-center group-hover:opacity-1">
-                    <h5 className="w-min text-sm">CHANGE AVATAR</h5>
+                  <Avatar className="!w-32 !h-32" />
+                  <div className="pointer-events-none absolute bottom-0 h-full rounded-[50%] w-full duration-200 opacity-0 group-hover:bg-editPicture flex flex-col !z-20 justify-center items-center group-hover:opacity-100">
+                    <h5 className="w-min text-sm font-bold">CHANGE AVATAR</h5>
                   </div>
                 </IconButton>
               </label>
@@ -61,6 +53,25 @@ const Profile = forwardRef(({ className }: ProfileProps, ref) => {
               style={{ display: "none" }}
               onChange={preview}
             />
+
+            <div className="box-border bg-prof-info-background m-[0.9375rem] py-[.3125rem] px-[.9375rem] rounded-lg">
+              {profileFields.map((field) => (
+                <div className="my-[.8125rem] relative">
+                  <>
+                    <p className="text-prof-info-heading my-[2px]">
+                      {field.toUpperCase()}
+                      <p>Data</p>
+                    </p>
+                  </>
+                  <button
+                    className="w-min px-2.5 py-2 rounded text-sm text-black bg-[purple] h-fit absolute right-0 top-1/2 translate-y-[-50%] hover:bg-button-hover"
+                    onClick={() => editProfileInfo(field)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              ))}
+            </div>
           </>
         )}
       </div>

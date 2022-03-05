@@ -14,7 +14,6 @@ const useOutOfBoundsClick = (
   }, [ref, cb]);
 
   const handleClickOutside = (e: any) => {
-    console.log(ref.current, e.target);
     if (!ref.current || ref.current.contains(e.target)) return;
     cb(e);
   };
