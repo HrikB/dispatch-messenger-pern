@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   setUser as setUserReducer,
   removeUser as removeUserReducer,
+  updateUser as updateUserReducer,
 } from "../case-reducers";
 import { User } from "../../types";
 
@@ -15,6 +16,7 @@ export const userSlice = createSlice({
   reducers: {
     setUser: setUserReducer,
     removeUser: removeUserReducer,
+    updateUser: updateUserReducer,
   },
 });
 

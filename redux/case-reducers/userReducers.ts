@@ -10,6 +10,13 @@ export const setUser: CaseReducer<State, PayloadAction<User>> = (
   state.user = action.payload;
 };
 
+export const updateUser: CaseReducer<State, PayloadAction<User>> = (
+  state,
+  action
+) => {
+  state.user = Object.assign({}, state.user, action.payload);
+};
+
 export const removeUser: CaseReducer<State, PayloadAction<User>> = (state) => {
   state.user = null;
 };
