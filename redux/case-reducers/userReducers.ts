@@ -14,6 +14,7 @@ export const updateUser: CaseReducer<State, PayloadAction<User>> = (
   state,
   action
 ) => {
+  console.log("asdsad");
   state.user = Object.assign({}, state.user, action.payload);
 };
 
