@@ -10,12 +10,10 @@ import { Sidebar, Friends } from "../components";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { io } from "socket.io-client";
-import { useDispatchSocket } from "../hooks";
 
 const Home: NextPage = () => {
   const user = useSelectUser();
   const router = useRouter();
-  useDispatchSocket();
 
   return (
     <div className="grid place-items-center bg-background h-screen w-screen relative overflow-x-hidden">

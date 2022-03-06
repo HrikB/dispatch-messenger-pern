@@ -3,7 +3,6 @@ import { Loading } from "..";
 import { useMutation } from "urql";
 import { User } from "../../types";
 import { useAppDispatch, setUserAction } from "../../redux";
-import { useSelectSocket } from "../../hooks";
 
 const buttonInputStyles = "box-border p-2.5 w-full my-1 rounded";
 
@@ -33,7 +32,6 @@ const loginMutation = `mutation(
 const LoginBox = ({ setRegisterModal }: any) => {
   const [loginResult, login] = useMutation(loginMutation);
   const { fetching } = loginResult;
-  const socket = useSelectSocket();
 
   const dispatch = useAppDispatch();
 
@@ -72,12 +70,6 @@ const LoginBox = ({ setRegisterModal }: any) => {
 
       return;
     }
-
-    if (socket === null) return;
-
-    socket.on("connect", () => {
-      console.log(socket.connected);
-    });
 
     const user: User = data.loginUser;
     dispatch(setUserAction(user));
