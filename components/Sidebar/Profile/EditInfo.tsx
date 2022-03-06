@@ -7,7 +7,10 @@ import React, {
 } from "react";
 import { useMutation } from "urql";
 import { Loading } from "../..";
-import { useAppDispatch as useDispatch } from "../../../redux";
+import {
+  useAppDispatch as useDispatch,
+  updateUserAction,
+} from "../../../redux";
 
 export interface editInfoProps {
   className: string;
@@ -33,6 +36,17 @@ const EditInfo = forwardRef(
         | React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
+      switch (toUpdate) {
+        case "first name":
+          dispatch(updateUserAction({ firstName: updatedInfo }));
+          break;
+        case "last name":
+          dispatch(updateUserAction({ lastName: updatedInfo }));
+          break;
+        case "email":
+          dispatch(updateUserAction({ email: updatedInfo }));
+      }
+      setIsEditMounted(false);
     };
 
     return (
