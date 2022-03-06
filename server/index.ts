@@ -9,7 +9,7 @@ import ORMConfig from "./ormconfig";
 import { createConnection } from "typeorm";
 import { MyContext } from "./types";
 import { createServer } from "http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 dotenv.config();
 
 const port = process.env.PORT || 3001;
@@ -39,6 +39,15 @@ app.prepare().then(async () => {
   server.applyMiddleware({ app });
 
   const io = new Server(httpServer);
+
+  io.on("connection", (socket: Socket) => {
+    console.log("connection");
+    socket.emit("status", "Hello from socket.io");
+
+    socket.on("disconnect", () => {
+      console.log("client disconnected");
+    });
+  });
 
   app.all("*", (req: Request, res: Response) => {
     return handle(req, res);
