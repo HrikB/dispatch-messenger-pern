@@ -49,7 +49,7 @@ const EditInfo = forwardRef(
           <p className="text-sm">{`${toUpdate}`.toUpperCase()}</p>
           <form onSubmit={save}>
             <input
-              className="bg-[#242424] border-2 border-solid border-[#141414] outline-none box-border rounded w-full py-1.5 px-1.5 my-1.5 hover:duration-75 hover:border-black focus:duration-[0s] focus:border-[focus] text-sm"
+              className="bg-[#242424] border-2 border-solid border-[#141414] outline-none box-border rounded w-full py-1.5 px-1.5 my-1.5 hover:duration-75 hover:border-black focus:duration-[0s] focus:border-focus text-sm"
               type="text"
               placeholder={`Enter your new ${toUpdate}`}
               value={updatedInfo}

@@ -8,11 +8,11 @@ import { User } from "../../types";
 
 type UserSliceState = { user: User | null };
 
-const initalState: UserSliceState = { user: null };
+const initialState: UserSliceState = { user: null };
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: initalState,
+  initialState,
   reducers: {
     setUser: setUserReducer,
     removeUser: removeUserReducer,
