@@ -70,13 +70,14 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
               id="file__input"
               type="file"
               ref={fileInput}
-              style={{ display: "none" }}
+              className="hidden"
               onChange={preview}
             />
 
             <div className="box-border bg-prof-info-background m-[0.9375rem] py-[.3125rem] px-[.9375rem] rounded-lg">
               {openEdit && (
                 <EditInfo
+                  setIsEditMounted={setIsEditMounted}
                   toUpdate={toUpdate}
                   ref={editRef}
                   className={`${
@@ -93,7 +94,7 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
                     </p>
                   </>
                   <button
-                    className="w-min px-2.5 py-2 rounded text-sm text-black bg-[purple] h-fit absolute right-0 top-1/2 translate-y-[-50%] hover:bg-button-hover"
+                    className="w-min px-2.5 py-2 rounded text-sm text-black bg-save h-fit absolute right-0 top-1/2 translate-y-[-50%] hover:bg-button-hover"
                     onClick={() => editProfileInfo(field)}
                   >
                     Edit

@@ -24,6 +24,7 @@ module.exports = {
         //input styles
         "input-bg": "#181818",
         "input-border": "#080808",
+        "save": "purple",
         focus: "#006eff"
       },
       fontSize: {
