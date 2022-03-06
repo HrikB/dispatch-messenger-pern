@@ -9,8 +9,8 @@ const buttonCSS =
 function Header() {
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
   const openProfile = useDelayUnmount(isOpenMounted, 180);
-  const openRef = useRef<HTMLDivElement>(null);
-  useOutOfBoundsClick(openRef, () => setIsOpenMounted(false));
+  const profileRef = useRef<HTMLDivElement>(null);
+  useOutOfBoundsClick(profileRef, () => setIsOpenMounted(false));
 
   const [isUpdateMounted, setIsUpdateMounted] = useState<boolean>(false);
   const openUpdate = useDelayUnmount(isUpdateMounted, 180);
@@ -41,7 +41,7 @@ function Header() {
         />
         {openProfile && (
           <div
-            ref={openRef}
+            ref={profileRef}
             className={`${
               !isOpenMounted ? "animate-fade-out" : "animate-fade-in"
             } box-border p-[.4375rem] absolute bg-tertiary top-full left-1/2 w-fit cursor-auto whitespace-nowrap flex flex-col rounded items-center`}

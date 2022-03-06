@@ -1,6 +1,13 @@
 import React, { ForwardedRef, forwardRef, useState, useRef } from "react";
 import PreviewImage from "./PreviewImage";
 import { IconButton, Avatar } from "@mui/material";
+import {
+  useDelayUnmount,
+  useOutOfBoundsClick,
+  useSelectUser,
+} from "../../../hooks";
+import { User } from "../../../types";
+import EditInfo from "./EditInfo";
 
 export interface ProfileMenuProps {
   className: string;
@@ -10,9 +17,22 @@ const profileFields = ["first name", "last name", "email"];
 
 const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
   const [previewImage, setPreviewImage] = useState<boolean>(false);
+  const [toUpdate, setToUpdate] = useState<string>(profileFields[0]);
+
+  const { firstName, lastName, email } = useSelectUser() as User;
+  const userData = [firstName, lastName, email];
+
+  const [isEditMounted, setIsEditMounted] = useState<boolean>(false);
+  const openEdit = useDelayUnmount(isEditMounted, 180);
+  const editRef = useRef<HTMLDivElement>(null);
+  useOutOfBoundsClick(editRef, () => setIsEditMounted(false));
+
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const editProfileInfo = (toEdit: string): void => {};
+  const editProfileInfo = (toEdit: string): void => {
+    setToUpdate(toEdit);
+    setIsEditMounted(true);
+  };
 
   const preview = () => {};
 
@@ -55,12 +75,21 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
             />
 
             <div className="box-border bg-prof-info-background m-[0.9375rem] py-[.3125rem] px-[.9375rem] rounded-lg">
-              {profileFields.map((field) => (
+              {openEdit && (
+                <EditInfo
+                  toUpdate={toUpdate}
+                  ref={editRef}
+                  className={`${
+                    !isEditMounted ? "animate-fade-out" : "animate-fade-in"
+                  }`}
+                />
+              )}
+              {profileFields.map((field, i) => (
                 <div className="my-[.8125rem] relative">
                   <>
                     <p className="text-prof-info-heading my-[2px]">
                       {field.toUpperCase()}
-                      <p>Data</p>
+                      <p>{userData[i]}</p>
                     </p>
                   </>
                   <button

@@ -1,8 +1,14 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPage,
+  PreviewData,
+} from "next";
 import Login from "./login";
 import { useSelectUser } from "../hooks";
 import { Sidebar, Friends } from "../components";
 import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 const Home: NextPage = () => {
   const user = useSelectUser();
@@ -10,7 +16,6 @@ const Home: NextPage = () => {
 
   return (
     <div className="grid place-items-center bg-background h-screen w-screen relative overflow-x-hidden">
-      {console.log(user)}
       {user === null ? (
         <Login />
       ) : (
@@ -25,6 +30,14 @@ const Home: NextPage = () => {
       )}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+) => {
+  return {
+    props: {}, // will be passed to the page component as props
+  };
 };
 
 export default Home;

@@ -17,6 +17,8 @@ module.exports = {
         "prof-info-heading": "rgb(187, 187, 187)",
         "prof-lower-background": "rgb(2, 2, 2)",
         "button-hover": "rgb(85, 0, 85)",
+        "edit-prof-background": "rgba(0, 0, 0, 0.9)",
+        "edit-attr-background": "#2b2b2b",
         editPicture: "rgba(47, 79, 79, 0.9)",
 
         //input styles
