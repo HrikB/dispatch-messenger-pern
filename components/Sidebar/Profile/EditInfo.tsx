@@ -59,7 +59,7 @@ const EditInfo = forwardRef(
 
           <div className="flex justify-end">
             <button
-              className={`${buttonCSS}`}
+              className={`${buttonCSS} hover:underline`}
               onClick={() => setIsEditMounted(false)}
             >
               Cancel
