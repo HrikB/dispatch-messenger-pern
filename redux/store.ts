@@ -1,13 +1,10 @@
 import {
   configureStore,
-  combineReducers,
   applyMiddleware,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import { userReducer } from "./slices";
 import { socketMiddleware } from "./middleware";
-
-const rootReducer = combineReducers({ userReducer });
+import rootReducer from "./reducer";
 
 export const store = configureStore({
   reducer: rootReducer,

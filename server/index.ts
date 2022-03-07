@@ -44,20 +44,20 @@ app.prepare().then(async () => {
   server.applyMiddleware({ app });
 
   const io = new Server(httpServer);
-  // io.on(
-  //   "connection",
-  //   (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
-  //     console.log("connection123!!");
+  io.on(
+    "connection",
+    (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
+      console.log("connection123!!");
 
-  //     socket.on("error", (err) => {
-  //       // console.log("weeeee", err);
-  //     });
+      socket.on(UserEvents.UPDATE_USER, (userChanges) => {
+        console.log(userChanges);
+      });
 
-  //     socket.on("disconnect", () => {
-  //       console.log("client disconnected!!");
-  //     });
-  //   }
-  // );
+      socket.on("disconnect", () => {
+        console.log("client disconnected!!");
+      });
+    }
+  );
 
   app.all("*", (req: Request, res: Response) => {
     return handle(req, res);

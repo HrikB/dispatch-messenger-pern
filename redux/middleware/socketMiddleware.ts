@@ -6,8 +6,9 @@ import {
   ClientToServerEvents,
   UserEvents,
 } from "../../types";
+import { RootState } from "../reducer";
 
-const socketMiddleware: Middleware = (store) => {
+const socketMiddleware: Middleware<unknown, RootState> = (store) => {
   let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
   return (next) => (action) => {
@@ -28,13 +29,13 @@ const socketMiddleware: Middleware = (store) => {
       });
     }
 
-    // if (updateUserAction.match(action)) {
-    //   socket.emit(UserEvents.UPDATE_USER, action.payload);
-    // }
+    if (updateUserAction.match(action)) {
+      socket.emit(UserEvents.UPDATE_USER, action.payload);
+    }
 
-    // if (removeUserAction.match(action)) {
-    //   socket.disconnect();
-    // }
+    if (removeUserAction.match(action)) {
+      socket.disconnect();
+    }
 
     next(action);
   };

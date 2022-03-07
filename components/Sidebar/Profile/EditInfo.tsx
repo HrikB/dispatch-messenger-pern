@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { useMutation } from "urql";
 import { Loading } from "../..";
+import { useSelectUser } from "../../../hooks";
 import {
   useAppDispatch as useDispatch,
   updateUserAction,
@@ -25,6 +26,7 @@ const updateMutation = "";
 const EditInfo = forwardRef(
   ({ className, toUpdate, setIsEditMounted }: editInfoProps, ref) => {
     const dispatch = useDispatch();
+    const user = useSelectUser();
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
 
     const [updateResult, update] = useMutation(updateMutation);
@@ -36,15 +38,16 @@ const EditInfo = forwardRef(
         | React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
+      const id = { id: user.id };
       switch (toUpdate) {
         case "first name":
-          dispatch(updateUserAction({ firstName: updatedInfo }));
+          dispatch(updateUserAction({ firstName: updatedInfo, ...id }));
           break;
         case "last name":
-          dispatch(updateUserAction({ lastName: updatedInfo }));
+          dispatch(updateUserAction({ lastName: updatedInfo, ...id }));
           break;
         case "email":
-          dispatch(updateUserAction({ email: updatedInfo }));
+          dispatch(updateUserAction({ email: updatedInfo, ...id }));
       }
       setIsEditMounted(false);
     };
