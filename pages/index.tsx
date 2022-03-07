@@ -9,7 +9,6 @@ import { useSelectUser } from "../hooks";
 import { Sidebar, Friends } from "../components";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import { io } from "socket.io-client";
 
 const Home: NextPage = () => {
   const user = useSelectUser();

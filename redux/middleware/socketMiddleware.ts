@@ -12,9 +12,13 @@ const socketMiddleware: Middleware = (store) => {
 
   return (next) => (action) => {
     if (setUserAction.match(action)) {
-      socket = io(`${process.env.NEXT_PUBLIC_URL}.${process.env.DEV_PORT}`, {
-        withCredentials: true,
-      });
+      console.log("here");
+      socket = io(
+        `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_DEV_PORT}`
+        //   {
+        //     withCredentials: true,
+        //   }
+      );
 
       socket.on("connect", () => {
         const { firstName, lastName } = action.payload;
@@ -24,13 +28,13 @@ const socketMiddleware: Middleware = (store) => {
       });
     }
 
-    if (updateUserAction.match(action)) {
-      socket.emit(UserEvents.UPDATE_USER, action.payload);
-    }
+    // if (updateUserAction.match(action)) {
+    //   socket.emit(UserEvents.UPDATE_USER, action.payload);
+    // }
 
-    if (removeUserAction.match(action)) {
-      socket.disconnect();
-    }
+    // if (removeUserAction.match(action)) {
+    //   socket.disconnect();
+    // }
 
     next(action);
   };
