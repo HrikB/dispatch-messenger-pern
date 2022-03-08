@@ -10,11 +10,8 @@ import { createConnection } from "typeorm";
 import { MyContext } from "./types";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
-import {
-  ClientToServerEvents,
-  ServerToClientEvents,
-  UserEvents,
-} from "../types";
+import { ClientToServerEvents, ServerToClientEvents } from "../types";
+import { disconnectHandler, userHandler } from "./socket-handlers";
 dotenv.config();
 
 const port = process.env.DEV_PORT || 3001;
@@ -49,13 +46,8 @@ app.prepare().then(async () => {
     (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
       console.log("connection123!!");
 
-      socket.on(UserEvents.UPDATE_USER, (userChanges) => {
-        console.log(userChanges);
-      });
-
-      socket.on("disconnect", () => {
-        console.log("client disconnected!!");
-      });
+      userHandler(socket);
+      disconnectHandler(socket);
     }
   );
 

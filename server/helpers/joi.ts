@@ -44,3 +44,21 @@ export const loginSchema = Joi.object({
     .required()
     .messages({ "string.empty": "This field is required" }),
 });
+
+export const updateSchema = Joi.object({
+  email: Joi.string().email().lowercase().messages({
+    "string.email": "Please enter a valid email",
+  }),
+  firstName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .messages({
+      "string.pattern.base":
+        "This field cannot have spaces, numbers, or symbols",
+    }),
+  lastName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .messages({
+      "string.pattern.base":
+        "This field cannot have spaces, numbers, or symbols",
+    }),
+});
