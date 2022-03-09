@@ -19,7 +19,6 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
 
   return (next) => (action) => {
     if (setUserAction.match(action)) {
-      console.log("here");
       socket = io(
         `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_DEV_PORT}`,
         {
@@ -36,15 +35,17 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
     }
 
     if (updateUserRequestAction.match(action)) {
-      socket.emit(UserEvents.UPDATE_USER, action.payload, (res) => {
-        if (res && "error" in res) {
-          //handle error
-          next(updateUserFailedAction({ error: res.errorDetails }));
-          return res;
-        } else {
-          next(updateUserSuccessAction(action.payload));
-          //success
-        }
+      return new Promise((resolve, reject) => {
+        socket.emit(UserEvents.UPDATE_USER, action.payload, (res) => {
+          if (res && "error" in res) {
+            next(updateUserFailedAction({ error: res.errorDetails }));
+            reject(res);
+          } else {
+            next(updateUserSuccessAction(action.payload));
+            resolve(res);
+            //success
+          }
+        });
       });
     }
 

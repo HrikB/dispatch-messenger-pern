@@ -28,7 +28,7 @@ const EditInfo = forwardRef(
     const [user, updating, error] = useUpdateUser();
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
 
-    const save = (
+    const save = async (
       e:
         | React.FormEvent<HTMLFormElement>
         | React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -36,17 +36,26 @@ const EditInfo = forwardRef(
       e.preventDefault();
       const id = { id: user.id };
 
-      switch (toUpdate) {
-        case "first name":
-          dispatch(updateUserRequestAction({ firstName: updatedInfo, ...id }));
-          break;
-        case "last name":
-          dispatch(updateUserRequestAction({ lastName: updatedInfo, ...id }));
-          break;
-        case "email":
-          dispatch(updateUserRequestAction({ email: updatedInfo, ...id }));
-      }
-      if (error === null) setIsEditMounted(false);
+      try {
+        switch (toUpdate) {
+          case "first name":
+            await dispatch(
+              updateUserRequestAction({ firstName: updatedInfo, ...id })
+            );
+            break;
+          case "last name":
+            await dispatch(
+              updateUserRequestAction({ lastName: updatedInfo, ...id })
+            );
+            break;
+          case "email":
+            await dispatch(
+              updateUserRequestAction({ email: updatedInfo, ...id })
+            );
+        }
+        dispatch(clearErrorAction());
+        setIsEditMounted(false);
+      } catch (err) {}
     };
 
     return (
@@ -65,7 +74,13 @@ const EditInfo = forwardRef(
           </p>
           <form onSubmit={save}>
             <input
-              className="bg-[#242424] border-2 border-solid border-[#141414] outline-none box-border rounded w-full py-1.5 px-1.5 my-1.5 hover:duration-75 hover:border-black focus:duration-[0s] focus:border-focus text-sm"
+              className={`bg-[#242424] border-2 border-solid  
+                ${
+                  error !== null
+                    ? "border-error"
+                    : "border-input-border hover:border-black focus:duration-[0s] focus:border-focus"
+                }
+              outline-none box-border rounded w-full py-1.5 px-1.5 my-1.5 hover:duration-75   text-sm`}
               type="text"
               placeholder={`Enter your new ${toUpdate}`}
               value={updatedInfo}
@@ -79,7 +94,10 @@ const EditInfo = forwardRef(
           <div className="flex justify-end">
             <button
               className={`${buttonCSS} hover:underline`}
-              onClick={() => setIsEditMounted(false)}
+              onClick={() => {
+                dispatch(clearErrorAction());
+                setIsEditMounted(false);
+              }}
             >
               Cancel
             </button>

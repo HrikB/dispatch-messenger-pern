@@ -35,11 +35,8 @@ function Header() {
           ref={updateRef}
         />
       )}
-      <IconButton>
-        <Avatar
-          onClick={() => setIsOpenMounted(!isOpenMounted)}
-          className="relative max-w-[32px] max-h-[32px]"
-        />
+      <IconButton onClick={() => setIsOpenMounted(!isOpenMounted)}>
+        <Avatar className="relative max-w-[32px] max-h-[32px]" />
         {openProfile && (
           <div
             ref={profileRef}

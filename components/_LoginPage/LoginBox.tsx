@@ -96,7 +96,7 @@ const LoginBox = ({ setRegisterModal }: any) => {
                 type={field.includes("PASSWORD") ? "password" : "text"}
                 className={`${buttonInputStyles} ${inputStyles} ${
                   errorState[i][0] !== ""
-                    ? "border-red-600"
+                    ? "border-error"
                     : "border-input-border"
                 } `}
                 value={fieldState[i][0]}

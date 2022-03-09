@@ -113,7 +113,7 @@ const RegisterBox = ({ setRegisterModal }: any) => {
           <input
             type={field.includes("PASSWORD") ? "password" : "text"}
             className={`p-2.5 w-full h-11 outline-none mb-1 rounded bg-input-bg ${
-              errorState[i][0] !== "" ? "border-red-600" : "border-input-border"
+              errorState[i][0] !== "" ? "border-error" : "border-input-border"
             } border-2`}
             onChange={(e) => {
               setRegDefaults();
