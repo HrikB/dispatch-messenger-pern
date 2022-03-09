@@ -1,7 +1,6 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../types";
-
-export type State = { user: User | null };
+import { UserSliceState as State } from "../types";
 
 export const setUser: CaseReducer<State, PayloadAction<User>> = (
   state,
@@ -11,34 +10,34 @@ export const setUser: CaseReducer<State, PayloadAction<User>> = (
 };
 
 export const updateUserRequest: CaseReducer<State, PayloadAction<User>> = (
-  state,
-  action
+  state
 ) => {
-  console.log("running reducer");
-  state = Object.assign(state, { fetching: true });
+  state = Object.assign(state, { updating: true });
 };
 
 export const updateUserSuccess: CaseReducer<State, PayloadAction<User>> = (
   state,
   action
 ) => {
-  console.log("payload", state.user, action.payload);
   state.user = Object.assign({}, state.user, action.payload);
-  state = Object.assign(state, { fetching: false });
+  state = Object.assign(state, { updating: false });
 };
 
 export const updateUserFailed: CaseReducer<
   State,
   PayloadAction<{ error: string }>
 > = (state, action) => {
-  console.log("2", state);
   state = Object.assign(state, {
-    fetching: false,
+    updating: false,
     error: action.payload.error,
   });
 };
 
-export const removeUser: CaseReducer<State, PayloadAction<User>> = (state) => {
+export const clearError: CaseReducer<State> = (state) => {
+  state.error = null;
+};
+
+export const removeUser: CaseReducer<State> = (state) => {
   state.user = null;
 };
 

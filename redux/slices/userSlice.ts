@@ -5,12 +5,15 @@ import {
   updateUserRequest as updateUserRequestReducer,
   updateUserSuccess as updateUserSuccessReducer,
   updateUserFailed as updateUserFailedReducer,
+  clearError as clearErrorReducer,
 } from "../case-reducers";
-import { User } from "../../types";
+import { UserSliceState } from "../types";
 
-type UserSliceState = { user: User | null };
-
-const initialState: UserSliceState = { user: null };
+const initialState: UserSliceState = {
+  user: null,
+  fetching: false,
+  error: null,
+};
 
 export const userSlice = createSlice({
   name: "user",
@@ -21,6 +24,7 @@ export const userSlice = createSlice({
     updateUserRequest: updateUserRequestReducer,
     updateUserSuccess: updateUserSuccessReducer,
     updateUserFailed: updateUserFailedReducer,
+    clearError: clearErrorReducer,
   },
 });
 

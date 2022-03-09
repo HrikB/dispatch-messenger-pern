@@ -5,9 +5,8 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { useMutation } from "urql";
 import { Loading } from "../..";
-import { useSelectUser } from "../../../hooks";
+import { useSelectUser, useUpdateUser } from "../../../hooks";
 import {
   useAppDispatch as useDispatch,
   useAppSelector as useSelector,
@@ -27,15 +26,10 @@ const updateMutation = "";
 const EditInfo = forwardRef(
   ({ className, toUpdate, setIsEditMounted }: editInfoProps, ref) => {
     const dispatch = useDispatch();
-    const obj = useSelector((state) => state.userReducer);
-    const { user: u, fetching: f, error } = obj;
-    console.log(u, f, error);
-    const user = useSelectUser();
+
+    const [user, updating, error] = useUpdateUser();
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
-
-    const [updateResult, update] = useMutation(updateMutation);
-    const { fetching } = updateResult;
-
+    console.log(user, updating, error);
     const save = (
       e:
         | React.FormEvent<HTMLFormElement>
@@ -54,7 +48,7 @@ const EditInfo = forwardRef(
         case "email":
           dispatch(updateUserRequestAction({ email: updatedInfo, ...id }));
       }
-      setIsEditMounted(false);
+      // setIsEditMounted(false);
     };
 
     return (
@@ -90,7 +84,7 @@ const EditInfo = forwardRef(
               className={`${buttonCSS} bg-save hover:bg-button-hover`}
               onClick={save}
             >
-              {fetching ? <Loading /> : "Save"}
+              {updating ? <Loading /> : "Save"}
             </button>
           </div>
         </div>
