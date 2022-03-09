@@ -1,12 +1,12 @@
 import { UserEvents } from "../events";
 import { User } from "..";
 
-interface Response {
+export interface Response {
   error: string;
   errorDetails: string;
 }
 
-type Acknowledgment = (res: Response) => void;
+export type Acknowledgment = (res?: Response) => void;
 
 type ClientToServerEvents = {
   [key in UserEvents]: (userChanges: User, cb: Acknowledgment) => void;

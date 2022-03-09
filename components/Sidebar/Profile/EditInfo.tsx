@@ -10,7 +10,8 @@ import { Loading } from "../..";
 import { useSelectUser } from "../../../hooks";
 import {
   useAppDispatch as useDispatch,
-  updateUserAction,
+  useAppSelector as useSelector,
+  updateUserRequestAction,
 } from "../../../redux";
 
 export interface editInfoProps {
@@ -26,6 +27,9 @@ const updateMutation = "";
 const EditInfo = forwardRef(
   ({ className, toUpdate, setIsEditMounted }: editInfoProps, ref) => {
     const dispatch = useDispatch();
+    const obj = useSelector((state) => state.userReducer);
+    const { user: u, fetching: f, error } = obj;
+    console.log(u, f, error);
     const user = useSelectUser();
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
 
@@ -41,13 +45,14 @@ const EditInfo = forwardRef(
       const id = { id: user.id };
       switch (toUpdate) {
         case "first name":
-          dispatch(updateUserAction({ firstName: updatedInfo, ...id }));
+          dispatch(updateUserRequestAction({ firstName: updatedInfo, ...id }));
+
           break;
         case "last name":
-          dispatch(updateUserAction({ lastName: updatedInfo, ...id }));
+          dispatch(updateUserRequestAction({ lastName: updatedInfo, ...id }));
           break;
         case "email":
-          dispatch(updateUserAction({ email: updatedInfo, ...id }));
+          dispatch(updateUserRequestAction({ email: updatedInfo, ...id }));
       }
       setIsEditMounted(false);
     };
@@ -89,7 +94,6 @@ const EditInfo = forwardRef(
             </button>
           </div>
         </div>
-        EditInfo
       </div>
     );
   }

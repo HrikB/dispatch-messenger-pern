@@ -1,3 +1,9 @@
 import { userSlice } from "../slices";
 
-export const { setUser, removeUser, updateUser } = userSlice.actions;
+export const {
+  setUser,
+  removeUser,
+  updateUserRequest,
+  updateUserSuccess,
+  updateUserFailed,
+} = userSlice.actions;

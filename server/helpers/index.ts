@@ -1,4 +1,4 @@
-export { registerSchema, loginSchema } from "./joi";
+export { registerSchema, loginSchema, updateSchema } from "./joi";
 export { signAccessToken } from "./jwt";
 export { default as createSocketError } from "./createSocketError";
 export { default as createGraphQLError } from "./createGraphQLError";

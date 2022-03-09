@@ -10,11 +10,32 @@ export const setUser: CaseReducer<State, PayloadAction<User>> = (
   state.user = action.payload;
 };
 
-export const updateUser: CaseReducer<State, PayloadAction<User>> = (
+export const updateUserRequest: CaseReducer<State, PayloadAction<User>> = (
   state,
   action
 ) => {
+  console.log("running reducer");
+  state = Object.assign(state, { fetching: true });
+};
+
+export const updateUserSuccess: CaseReducer<State, PayloadAction<User>> = (
+  state,
+  action
+) => {
+  console.log("payload", state.user, action.payload);
   state.user = Object.assign({}, state.user, action.payload);
+  state = Object.assign(state, { fetching: false });
+};
+
+export const updateUserFailed: CaseReducer<
+  State,
+  PayloadAction<{ error: string }>
+> = (state, action) => {
+  console.log("2", state);
+  state = Object.assign(state, {
+    fetching: false,
+    error: action.payload.error,
+  });
 };
 
 export const removeUser: CaseReducer<State, PayloadAction<User>> = (state) => {

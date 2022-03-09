@@ -1,5 +1,7 @@
 export {
   setUser as setUserAction,
-  updateUser as updateUserAction,
   removeUser as removeUserAction,
+  updateUserRequest as updateUserRequestAction,
+  updateUserSuccess as updateUserSuccessAction,
+  updateUserFailed as updateUserFailedAction,
 } from "./userActions";
