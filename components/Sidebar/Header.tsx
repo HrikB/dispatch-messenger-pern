@@ -1,7 +1,8 @@
 import { IconButton, Avatar } from "@mui/material";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useDelayUnmount, useOutOfBoundsClick } from "../../hooks";
 import { ProfileMenu } from "./Profile";
+import Image from "next/image";
 
 const buttonCSS =
   "my-[3px] box-border h-fit w-full bg-transparent p-[3px] text-[60%] hover:bg-[#403d3d] rounded";
@@ -57,7 +58,7 @@ function Header() {
       </IconButton>
       <h3 className="text-center text-2xl text-dispatch font-bold">Dispatch</h3>
       <IconButton>
-        <img src="/Compose.svg" alt="Compose" />
+        <Image width="32" height="32" src="/Compose.svg" alt="Compose" />
       </IconButton>
     </div>
   );

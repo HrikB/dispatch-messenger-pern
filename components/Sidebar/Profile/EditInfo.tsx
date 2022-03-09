@@ -96,5 +96,6 @@ const EditInfo = forwardRef(
     );
   }
 );
+EditInfo.displayName = "EditInfo";
 
 export default EditInfo;

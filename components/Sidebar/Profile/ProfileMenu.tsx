@@ -86,7 +86,7 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
                 />
               )}
               {profileFields.map((field, i) => (
-                <div className="my-[.8125rem] relative">
+                <div key={field} className="my-[.8125rem] relative">
                   <>
                     <p className="text-prof-info-heading my-[2px]">
                       {field.toUpperCase()}
@@ -108,5 +108,7 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
     </div>
   );
 });
+
+ProfileMenu.displayName = "ProfileMenu";
 
 export default ProfileMenu;
