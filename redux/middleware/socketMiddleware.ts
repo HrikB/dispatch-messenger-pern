@@ -39,11 +39,9 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
       socket.emit(UserEvents.UPDATE_USER, action.payload, (res) => {
         if (res && "error" in res) {
           //handle error
-          console.log("1");
           next(updateUserFailedAction({ error: res.errorDetails }));
           return res;
         } else {
-          console.log("3");
           next(updateUserSuccessAction(action.payload));
           //success
         }
@@ -53,7 +51,6 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
     if (removeUserAction.match(action)) socket.disconnect();
 
     next(action);
-    return socket;
   };
 };
 

@@ -6,4 +6,5 @@ export const {
   updateUserRequest,
   updateUserSuccess,
   updateUserFailed,
+  clearError,
 } = userSlice.actions;
