@@ -49,7 +49,7 @@ function Header() {
             <button className={`${buttonCSS}`} onClick={updateProfile}>
               Update Profile
             </button>
-            <button className={`${buttonCSS} text-red-600`} onClick={logOut}>
+            <button className={`${buttonCSS} text-error`} onClick={logOut}>
               Log Out
             </button>
           </div>

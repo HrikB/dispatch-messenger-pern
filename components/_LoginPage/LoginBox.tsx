@@ -86,7 +86,7 @@ const LoginBox = ({ setRegisterModal }: any) => {
           <div key={field}>
             <p
               className={`text-sm ${
-                errorState[i][0] !== "" ? "text-red-600" : ""
+                errorState[i][0] !== "" ? "text-error" : ""
               }`}
             >
               {field} {errorState[i][0] !== "" ? `- ${errorState[i][0]}` : ""}
