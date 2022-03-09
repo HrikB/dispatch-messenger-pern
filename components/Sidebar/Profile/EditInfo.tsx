@@ -6,12 +6,12 @@ import React, {
   SetStateAction,
 } from "react";
 import { Loading } from "../..";
-import { useUpdateUser } from "../../../hooks";
+import { useSelectUser } from "../../../hooks";
 import {
   useAppDispatch as useDispatch,
   updateUserRequestAction,
-  clearErrorAction,
 } from "../../../redux";
+import { ErrorResponse } from "../../../types";
 
 export interface editInfoProps {
   className: string;
@@ -25,7 +25,9 @@ const EditInfo = forwardRef(
   ({ className, toUpdate, setIsEditMounted }: editInfoProps, ref) => {
     const dispatch = useDispatch();
 
-    const [user, updating, error] = useUpdateUser();
+    const user = useSelectUser();
+    const [updating, setUpdating] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
 
     const save = async (
@@ -37,6 +39,7 @@ const EditInfo = forwardRef(
       const id = { id: user.id };
 
       try {
+        setUpdating(true);
         switch (toUpdate) {
           case "first name":
             await dispatch(
@@ -53,9 +56,13 @@ const EditInfo = forwardRef(
               updateUserRequestAction({ email: updatedInfo, ...id })
             );
         }
-        dispatch(clearErrorAction());
+        setUpdating(false);
+        setError("");
         setIsEditMounted(false);
-      } catch (err) {}
+      } catch (err) {
+        setUpdating(false);
+        setError((err as ErrorResponse).errorDetails);
+      }
     };
 
     return (
@@ -69,14 +76,14 @@ const EditInfo = forwardRef(
           <h1 className="text-3xl text-center font-extrabold m-2.5">{`Change your ${toUpdate}`}</h1>
           <h4 className="text-center font-medium m-2.5">{`Enter a new ${toUpdate} to change it`}</h4>
 
-          <p className={`text-sm ${error !== null ? "text-error" : ""}`}>
-            {`${toUpdate}`.toUpperCase()} {error !== null && `- ${error}`}
+          <p className={`text-sm ${error !== "" ? "text-error" : ""}`}>
+            {`${toUpdate}`.toUpperCase()} {error !== "" && `- ${error}`}
           </p>
           <form onSubmit={save}>
             <input
               className={`bg-[#242424] border-2 border-solid  
                 ${
-                  error !== null
+                  error !== ""
                     ? "border-error"
                     : "border-input-border hover:border-black focus:duration-[0s] focus:border-focus"
                 }
@@ -85,7 +92,7 @@ const EditInfo = forwardRef(
               placeholder={`Enter your new ${toUpdate}`}
               value={updatedInfo}
               onChange={(e) => {
-                error !== null && dispatch(clearErrorAction());
+                error !== "" && setError("");
                 setUpdatedInfo(e.target.value);
               }}
             />
@@ -95,7 +102,7 @@ const EditInfo = forwardRef(
             <button
               className={`${buttonCSS} hover:underline`}
               onClick={() => {
-                dispatch(clearErrorAction());
+                setError("");
                 setIsEditMounted(false);
               }}
             >

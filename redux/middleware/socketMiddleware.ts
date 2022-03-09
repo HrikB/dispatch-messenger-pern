@@ -4,7 +4,6 @@ import {
   setUserAction,
   removeUserAction,
   updateUserRequestAction,
-  updateUserFailedAction,
   updateUserSuccessAction,
 } from "../actions";
 import {
@@ -37,13 +36,10 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
     if (updateUserRequestAction.match(action)) {
       return new Promise((resolve, reject) => {
         socket.emit(UserEvents.UPDATE_USER, action.payload, (res) => {
-          if (res && "error" in res) {
-            next(updateUserFailedAction({ error: res.errorDetails }));
-            reject(res);
-          } else {
+          if (res && "error" in res) reject(res);
+          else {
             next(updateUserSuccessAction(action.payload));
-            resolve(res);
-            //success
+            resolve({ success: true });
           }
         });
       });

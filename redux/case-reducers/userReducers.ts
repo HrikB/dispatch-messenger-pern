@@ -23,20 +23,6 @@ export const updateUserSuccess: CaseReducer<State, PayloadAction<User>> = (
   state = Object.assign(state, { updating: false });
 };
 
-export const updateUserFailed: CaseReducer<
-  State,
-  PayloadAction<{ error: string }>
-> = (state, action) => {
-  state = Object.assign(state, {
-    updating: false,
-    error: action.payload.error,
-  });
-};
-
-export const clearError: CaseReducer<State> = (state) => {
-  state.error = null;
-};
-
 export const removeUser: CaseReducer<State> = (state) => {
   state.user = null;
 };

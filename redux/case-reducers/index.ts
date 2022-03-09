@@ -4,6 +4,4 @@ export {
   removeUser,
   updateUserRequest,
   updateUserSuccess,
-  updateUserFailed,
-  clearError,
 } from "./userReducers";
