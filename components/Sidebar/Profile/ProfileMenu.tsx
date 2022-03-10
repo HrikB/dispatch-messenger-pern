@@ -91,8 +91,8 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
                   <>
                     <p className="text-prof-info-heading my-[2px]">
                       {field.toUpperCase()}
-                      <p>{firstCaps(userData[i])}</p>
                     </p>
+                    <p>{firstCaps(userData[i])}</p>
                   </>
                   <button
                     className="w-min px-2.5 py-2 rounded text-sm text-black bg-save h-fit absolute right-0 top-1/2 translate-y-[-50%] hover:bg-button-hover"

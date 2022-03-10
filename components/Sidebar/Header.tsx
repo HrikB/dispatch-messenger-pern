@@ -35,8 +35,10 @@ function Header() {
           ref={updateRef}
         />
       )}
-      <IconButton onClick={() => setIsOpenMounted(!isOpenMounted)}>
-        <Avatar className="relative max-w-[32px] max-h-[32px]" />
+      <div className="relative">
+        <IconButton onClick={() => setIsOpenMounted(!isOpenMounted)}>
+          <Avatar className="relative max-w-[32px] max-h-[32px]" />
+        </IconButton>
         {openProfile && (
           <div
             ref={profileRef}
@@ -52,7 +54,7 @@ function Header() {
             </button>
           </div>
         )}
-      </IconButton>
+      </div>
       <h3 className="text-center text-2xl text-dispatch font-bold">Dispatch</h3>
       <IconButton>
         <Image width="32" height="32" src="/Compose.svg" alt="Compose" />
