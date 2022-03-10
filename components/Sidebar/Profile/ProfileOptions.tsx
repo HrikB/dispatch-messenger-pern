@@ -9,6 +9,7 @@ export interface ProfileOptionsProps {
 export const ProfileOptions = forwardRef(
   ({ className, buttonCSS, updateProfile }: ProfileOptionsProps, ref) => {
     const logOut = () => {};
+
     return (
       <div className={className} ref={ref as ForwardedRef<HTMLDivElement>}>
         <button className={`${buttonCSS}`} onClick={updateProfile}>

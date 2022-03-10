@@ -36,6 +36,7 @@ const EditInfo = forwardRef(
         | React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
+      if (updatedInfo.length === 0) return;
       const id = { id: user.id };
 
       try {
@@ -109,7 +110,7 @@ const EditInfo = forwardRef(
               Cancel
             </button>
             <button
-              className={`${buttonCSS} bg-save hover:bg-button-hover`}
+              className={`${buttonCSS} bg-save hover:bg-button-hover disabled:bg-disabled`}
               onClick={save}
               disabled={updatedInfo.length === 0}
             >

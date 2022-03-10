@@ -5,7 +5,7 @@ import { ProfileMenu, ProfileOptions } from "./Profile";
 import Image from "next/image";
 
 const buttonCSS =
-  "my-[3px] box-border h-fit w-full bg-transparent p-[3px] text-[60%] hover:bg-[#403d3d] rounded";
+  "my-[3px] box-border h-fit w-full bg-transparent p-[3px] text-[80%] hover:bg-[#403d3d] rounded";
 
 function Header() {
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
