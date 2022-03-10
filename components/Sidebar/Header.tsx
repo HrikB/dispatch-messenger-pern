@@ -1,7 +1,7 @@
 import { IconButton, Avatar } from "@mui/material";
 import { useState, useRef } from "react";
 import { useDelayUnmount, useOutOfBoundsClick } from "../../hooks";
-import { ProfileMenu } from "./Profile";
+import { ProfileMenu, ProfileOptions } from "./Profile";
 import Image from "next/image";
 
 const buttonCSS =
@@ -23,8 +23,6 @@ function Header() {
     setIsUpdateMounted(true);
   };
 
-  const logOut = () => {};
-
   return (
     <div className="flex justify-between items-center w-full px-2 mt-1">
       {openUpdate && (
@@ -40,19 +38,14 @@ function Header() {
           <Avatar className="relative max-w-[32px] max-h-[32px]" />
         </IconButton>
         {openProfile && (
-          <div
+          <ProfileOptions
             ref={profileRef}
             className={`${
               !isOpenMounted ? "animate-fade-out" : "animate-fade-in"
             } box-border p-[.4375rem] absolute bg-tertiary top-full left-1/2 w-fit cursor-auto whitespace-nowrap flex flex-col rounded items-center`}
-          >
-            <button className={`${buttonCSS}`} onClick={updateProfile}>
-              Update Profile
-            </button>
-            <button className={`${buttonCSS} text-error`} onClick={logOut}>
-              Log Out
-            </button>
-          </div>
+            buttonCSS={buttonCSS}
+            updateProfile={updateProfile}
+          />
         )}
       </div>
       <h3 className="text-center text-2xl text-dispatch font-bold">Dispatch</h3>
