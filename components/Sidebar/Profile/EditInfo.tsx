@@ -5,7 +5,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Loading } from "../..";
+import Loading from "../../Loading";
 import { useSelectUser } from "../../../hooks";
 import {
   useAppDispatch as useDispatch,

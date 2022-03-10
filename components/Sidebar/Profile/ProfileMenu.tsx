@@ -8,6 +8,7 @@ import {
 } from "../../../hooks";
 import { User } from "../../../types";
 import EditInfo from "./EditInfo";
+import { firstCaps } from "../../../utils";
 
 export interface ProfileMenuProps {
   className: string;
@@ -90,7 +91,7 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
                   <>
                     <p className="text-prof-info-heading my-[2px]">
                       {field.toUpperCase()}
-                      <p>{userData[i]}</p>
+                      <p>{firstCaps(userData[i])}</p>
                     </p>
                   </>
                   <button
