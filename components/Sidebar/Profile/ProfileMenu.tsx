@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useState, useRef } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, useState } from "react";
 import PreviewImage from "./PreviewImageMenu";
 import DefaultMenu from "./DefaultMenu";
 
@@ -8,6 +8,26 @@ export interface ProfileMenuProps {
 
 const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
   const [previewImage, setPreviewImage] = useState<boolean>(false);
+  const [image, setImage] = useState<string>("");
+
+  const preview = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    if (e.target.files.length > 0) {
+      const fileReader = new FileReader();
+      fileReader.onload = (e: ProgressEvent<FileReader>) => {
+        if (
+          e.target === null ||
+          e.target.result === null ||
+          e.target.result instanceof ArrayBuffer
+        )
+          return;
+        setImage(e.target.result);
+      };
+
+      fileReader.readAsDataURL(e.target.files[0]);
+      setPreviewImage(true);
+    }
+  };
 
   return (
     <div
@@ -19,9 +39,9 @@ const ProfileMenu = forwardRef(({ className }: ProfileMenuProps, ref) => {
       >
         <h3 className="text-[1.1875rem] font-bold">Update Profile</h3>
         {previewImage ? (
-          <PreviewImage />
+          <PreviewImage image={image} setPreviewImage={setPreviewImage} />
         ) : (
-          <DefaultMenu setPreviewImage={setPreviewImage} />
+          <DefaultMenu preview={preview} />
         )}
       </div>
     </div>

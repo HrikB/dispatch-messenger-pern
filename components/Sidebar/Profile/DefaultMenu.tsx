@@ -1,4 +1,4 @@
-import { useState, useRef, Dispatch, SetStateAction } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { useDelayUnmount, useOutOfBoundsClick } from "../../../hooks";
 import { IconButton, Avatar } from "@mui/material";
 import { firstCaps } from "../../../utils";
@@ -7,12 +7,12 @@ import { useSelectUser } from "../../../hooks";
 import { User } from "../../../types";
 
 interface DefaultMenuProps {
-  setPreviewImage: Dispatch<SetStateAction<boolean>>;
+  preview: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const profileFields = ["first name", "last name", "email"];
 
-function DefaultMenu({ setPreviewImage }: DefaultMenuProps) {
+function DefaultMenu({ preview }: DefaultMenuProps) {
   const [isEditMounted, setIsEditMounted] = useState<boolean>(false);
   const openEdit = useDelayUnmount(isEditMounted, 180);
   const editRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,7 @@ function DefaultMenu({ setPreviewImage }: DefaultMenuProps) {
         type="file"
         ref={fileInput}
         className="hidden"
-        onChange={() => setPreviewImage(true)}
+        onChange={preview}
       />
 
       <div className="box-border bg-prof-info-background m-[0.9375rem] py-[.3125rem] px-[.9375rem] rounded-lg">

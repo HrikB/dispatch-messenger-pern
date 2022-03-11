@@ -27,6 +27,7 @@ module.exports = {
         save: "purple",
         error: "rgb(220 38 38)",
         disabled: "#525252",
+        "edit-picture-background": "#403d3d",
         focus: "#006eff"
       },
       fontSize: {

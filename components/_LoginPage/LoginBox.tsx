@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Loading } from "..";
 import { useMutation } from "urql";
 import { User } from "../../types";
