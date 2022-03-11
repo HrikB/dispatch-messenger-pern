@@ -11,6 +11,8 @@ import { MyContext } from "./types";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import { ClientToServerEvents, ServerToClientEvents } from "../types";
+import { storage } from "./firebase";
+import { ref, getDownloadURL } from "firebase/storage";
 import { disconnectHandler, userHandler } from "./socket-handlers";
 dotenv.config();
 
@@ -54,6 +56,10 @@ app.prepare().then(async () => {
   app.all("*", (req: Request, res: Response) => {
     return handle(req, res);
   });
+
+  const pathRef = ref(storage, "images/ForeverApe.png");
+  const url = await getDownloadURL(pathRef);
+  console.log(url);
 
   httpServer.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);

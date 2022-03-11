@@ -1,6 +1,10 @@
 import { IconButton, Avatar } from "@mui/material";
 import { useState, useRef } from "react";
-import { useDelayUnmount, useOutOfBoundsClick } from "../../hooks";
+import {
+  useDelayUnmount,
+  useOutOfBoundsClick,
+  useSelectUser,
+} from "../../hooks";
 import { ProfileMenu, ProfileOptions } from "./Profile";
 import Image from "next/image";
 
@@ -8,6 +12,8 @@ const buttonCSS =
   "my-[3px] box-border h-fit w-full bg-transparent p-[3px] text-[80%] hover:bg-[#403d3d] rounded";
 
 function Header() {
+  const user = useSelectUser();
+
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
   const openProfile = useDelayUnmount(isOpenMounted, 180);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -35,7 +41,10 @@ function Header() {
       )}
       <div className="relative">
         <IconButton onClick={() => setIsOpenMounted(!isOpenMounted)}>
-          <Avatar className="relative max-w-[32px] max-h-[32px]" />
+          <Avatar
+            className="relative max-w-[32px] max-h-[32px]"
+            src={user.profilePic}
+          />
         </IconButton>
         {openProfile && (
           <ProfileOptions

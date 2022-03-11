@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
+import { string } from "joi";
 
 @Entity()
 @ObjectType()
@@ -38,9 +39,9 @@ class Users extends BaseEntity {
   @Column({ nullable: false })
   password: string;
 
-  @Field(() => String)
-  @Column({ nullable: true })
-  profilePic: string;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "varchar", nullable: true })
+  profilePic: string | null;
 
   @Field(() => [String])
   @Column("varchar", { array: true, default: [] })

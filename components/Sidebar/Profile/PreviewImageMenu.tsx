@@ -22,7 +22,14 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
   const [zoom, setZoom] = useState<number>();
   const [updating, setUpdating] = useState<boolean>(false);
 
-  const upload = () => {};
+  const upload = async () => {
+    if (!editor || !editor.current) return;
+    const canvas: HTMLCanvasElement = editor.current.getImageScaledToCanvas();
+    const blob: Blob | null = await new Promise((resolve) =>
+      canvas.toBlob(resolve)
+    );
+    if (blob === null) return;
+  };
 
   return (
     <div className="table-row box-border max-h-[50vh]">

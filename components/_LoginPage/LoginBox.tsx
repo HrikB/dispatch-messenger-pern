@@ -25,6 +25,7 @@ const loginMutation = `mutation(
     lastName
     firstName
     email
+    profilePic
     friendsList
   }
 }`;
