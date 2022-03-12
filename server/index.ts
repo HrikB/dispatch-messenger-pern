@@ -1,9 +1,10 @@
 import "reflect-metadata";
+import { bucket } from "./helpers";
 import express, { Request, Response } from "express";
 import { buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
 import next from "next";
-import { UserResolver } from "./resolvers";
+import { UserResolver, CloudResolver } from "./resolvers";
 import dotenv from "dotenv";
 import ORMConfig from "./ormconfig";
 import { createConnection } from "typeorm";
@@ -11,8 +12,6 @@ import { MyContext } from "./types";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import { ClientToServerEvents, ServerToClientEvents } from "../types";
-import { storage } from "./firebase";
-import { ref, getDownloadURL } from "firebase/storage";
 import { disconnectHandler, userHandler } from "./socket-handlers";
 dotenv.config();
 
@@ -32,7 +31,7 @@ app.prepare().then(async () => {
   }
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, CloudResolver],
   });
 
   const server = new ApolloServer({
@@ -57,9 +56,14 @@ app.prepare().then(async () => {
     return handle(req, res);
   });
 
-  const pathRef = ref(storage, "images/ForeverApe.png");
-  const url = await getDownloadURL(pathRef);
-  console.log(url);
+  const options = {
+    version: "v4" as "v4",
+    action: "write" as "write",
+    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    contentType: "application/octet-stream",
+  };
+
+  const [url] = await bucket.file("photo").getSignedUrl(options);
 
   httpServer.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
