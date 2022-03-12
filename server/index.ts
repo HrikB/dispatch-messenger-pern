@@ -56,15 +56,6 @@ app.prepare().then(async () => {
     return handle(req, res);
   });
 
-  const options = {
-    version: "v4" as "v4",
-    action: "write" as "write",
-    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-    contentType: "application/octet-stream",
-  };
-
-  const [url] = await bucket.file("photo").getSignedUrl(options);
-
   httpServer.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });

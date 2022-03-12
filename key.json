@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eastern-augury-343821",
+  "private_key_id": "843583d3931b0ff632e7232a74b131d4a87b2641",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQpV5wHNRyY1gd\n6uH1fWm75S4DXUbSpWY3IhUsEZyA4h5swHi/xAvNIhrkBLPBJmSTR7RRXqd5lQQW\n5CuEyRblWYI3ZngcBbdNd6vDWz6spDoCAiihPlLQ1ZB75VQDuRnuHUsvw3bPfGxh\nUJ8WvfRmaeOQa8np6IX9K0IKc61Z2YHtfG+YCHcxxCGUSAFRAjkqpZ9I4sKxirdW\nCKfrLkUkPToK6E9Y4iRMpr2SAVoU9X81floJS7YSozBfuARFo/11BaXEeEphJAQk\n9aEPVH44reZfD4dQX2yhA+VuAzc9QqoHT8rfoK+TzaADNU0yCy1y3T9mJmP+ERmm\nxPfiOWilAgMBAAECggEAEMDKg7GI7HNmIqbWxGWwzP3Cs1H0yxqtSa2CqjJy0NV3\nMG/G8kztTqgXpSnsfgyVZE8MX0E8rNJGjQj+po+X90v33PdtGwDpfj6m682Ci423\nO6yNMx9EOpD/ZDdehtsAxkITZK8q9c+Ni0XUNFkFzAhiFZlWEeJSCelEiP7PU0iy\nzkd2tNAH8suYemQ6mJtFJ8XOObRpm35GOl6FSj/vZHTq5+/z0puwSB7d1yV0Ec5q\nz3z4R7mjARUNug9KtCQV1JdJUGh/kEOIRQj8cNNPGqyLoDebuXwaaKApLEWNOuD8\nYRn1Dyb7OutYUBznyMmHq3Oc5U6n8p75xUXTmb930QKBgQD0TptF6PjXwhDreBL8\nV2uwRb0T2IFx3dSbt6vd9E2ADtrRg7JSa+k7LJLsqtoBG6wCXADn38so7IPOGP7o\n9L6OkeKDkkHJA6Jyzv+MyAtyEpAHG6PF51j8BzeKpR2kHUiVuHM0Lm8pcfh8TcGX\nGU2o+Y9l4lHTUn2aQ5bQfcbmVQKBgQDaodJi903z+Krd9b2QXFB0xqamiR+QfO2q\nbl7yLvVqB/qWUDiEaJM9qUI3YVHhTFrWWuStTAKTzZeEqkf2SSKJc+75lu+2DQZd\nMY9Ph3oWpUa7/h8/IBXUgFPTbIPEXEc5HlSoP7gXU/9hGujl67mqCAM34nLtdBvK\nlfPLTB6pEQKBgHRMj0Iie4NKUP+m83LIsu0A5ddys3xfG3zdXKWWTOZvK9+dD+CI\nmkifGXosgwcQAzxES/IV6QKcRMpxv7dp+uSnsersTwDACC8bNy/vcvNkvseDct0d\nGpEvZlNL8uZTQmBzo/PtPuG97YpPAZ9KXlvYIVlg+Y7dsAklr7+kgHDZAoGBAKeE\njDZGNRV1eD5/txKwmPkQ6Mn7kRLdliEbVmaMcoAewvN/Xf6ePgtl8BWM3Pca0RMj\nK8pYzjS/t5PwARmFahAVo4rcCqncCv9HJP6T2IkXdD5A9WIhzHg5J4F8yO2govXx\n9n2/7Ob69ldKDh91YZoVb5nXSaYFa/HquZUQqwFxAoGBAO3XIRcs0p2hKDizCd0I\nXEQW9TurLS9jhSxPeW8loWzw69aeecbPK9FfX58K1xyTGOgMIBxoBZrdNCI0In0d\nOjwlqjERyc7VZppwDdRVmktDLlIRhDMGXqbgiIJFBkpA9pHW9sjp+idMe6cUpTOW\n9ByV/zG1FS8CyZEgfdhUCd93\n-----END PRIVATE KEY-----\n",
+  "client_email": "dispatch-server@eastern-augury-343821.iam.gserviceaccount.com",
+  "client_id": "103485173615073143106",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dispatch-server%40eastern-augury-343821.iam.gserviceaccount.com"
+}
