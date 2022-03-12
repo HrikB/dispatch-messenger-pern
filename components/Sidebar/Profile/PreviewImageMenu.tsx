@@ -9,6 +9,7 @@ import AvatarEditor from "react-avatar-editor";
 import { Photo } from "@mui/icons-material";
 import { Slider } from "@mui/material";
 import Loading from "../../Loading";
+import { useQuery } from "urql";
 
 interface PreviewImageProps {
   image: string;
@@ -17,10 +18,20 @@ interface PreviewImageProps {
 
 const buttonCSS = "my-2.5 mx-1 w-20 h-fit box-border py-1.5 rounded text-sm";
 
+const signedURLQuery = `query {
+  getSignedURL
+}`;
+
 function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
   const editor = useRef<AvatarEditor>();
   const [zoom, setZoom] = useState<number>();
   const [updating, setUpdating] = useState<boolean>(false);
+
+  const [{ data, error }] = useQuery<{ getSignedURL: string }>({
+    query: signedURLQuery,
+  });
+
+  if (error) setPreviewImage(false);
 
   const upload = async () => {
     if (!editor || !editor.current) return;
@@ -29,6 +40,9 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
       canvas.toBlob(resolve)
     );
     if (blob === null) return;
+    if (!data) return;
+
+    const signedURL = data.getSignedURL;
   };
 
   return (

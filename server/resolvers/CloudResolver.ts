@@ -13,6 +13,7 @@ class CloudResolver {
     };
 
     const [url] = await bucket.file("photo").getSignedUrl(options);
+
     return url;
   }
 }
