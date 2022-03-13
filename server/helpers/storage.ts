@@ -1,7 +1,7 @@
 import { Storage } from "@google-cloud/storage";
 
 const storage = new Storage({
-  projectId: "eastern-augury-343821",
+  projectId: process.env.GCLOUD_PROJECT_ID,
   keyFilename: "key.json",
 });
 

@@ -10,6 +10,7 @@ import { Photo } from "@mui/icons-material";
 import { Slider } from "@mui/material";
 import Loading from "../../Loading";
 import { useQuery } from "urql";
+import axios from "axios";
 
 interface PreviewImageProps {
   image: string;
@@ -31,18 +32,33 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
     query: signedURLQuery,
   });
 
-  if (error) setPreviewImage(false);
+  if (error) console.error(error);
 
   const upload = async () => {
-    if (!editor || !editor.current) return;
+    setUpdating(true);
+    if (!editor || !editor.current) return setUpdating(false);
+
     const canvas: HTMLCanvasElement = editor.current.getImageScaledToCanvas();
     const blob: Blob | null = await new Promise((resolve) =>
       canvas.toBlob(resolve)
     );
-    if (blob === null) return;
-    if (!data) return;
+    if (blob === null) return setUpdating(false);
+    const formdata = new FormData();
+    formdata.append("photo", blob);
+
+    if (!data) return setUpdating(false);
 
     const signedURL = data.getSignedURL;
+    console.log(signedURL);
+
+    try {
+      const res = await axios.put(signedURL, formdata);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setUpdating(false);
   };
 
   return (
