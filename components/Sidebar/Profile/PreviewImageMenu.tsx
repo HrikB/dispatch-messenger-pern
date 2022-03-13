@@ -11,6 +11,7 @@ import { Slider } from "@mui/material";
 import Loading from "../../Loading";
 import { useQuery } from "urql";
 import axios from "axios";
+import { log } from "console";
 
 interface PreviewImageProps {
   image: string;
@@ -19,7 +20,7 @@ interface PreviewImageProps {
 
 const buttonCSS = "my-2.5 mx-1 w-20 h-fit box-border py-1.5 rounded text-sm";
 
-const signedURLQuery = `query {
+const signedWriteURLQuery = `query {
   getSignedURL
 }`;
 
@@ -29,38 +30,39 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
   const [updating, setUpdating] = useState<boolean>(false);
 
   const [{ data, error }] = useQuery<{ getSignedURL: string }>({
-    query: signedURLQuery,
+    query: signedWriteURLQuery,
   });
 
+  console.log(data);
   if (error) console.error(error);
 
   const upload = async () => {
     setUpdating(true);
     if (!editor || !editor.current) return setUpdating(false);
+    console.log("editor");
 
     const canvas: HTMLCanvasElement = editor.current.getImageScaledToCanvas();
     const blob: Blob | null = await new Promise((resolve) =>
       canvas.toBlob(resolve)
     );
     if (blob === null) return setUpdating(false);
+    console.log("blob");
     const formdata = new FormData();
     formdata.append("photo", blob);
 
     if (!data) return setUpdating(false);
+    console.log("data");
 
-    const signedURL = data.getSignedURL;
-    console.log(signedURL);
+    const signedWriteURL = data.getSignedURL;
+    console.log(signedWriteURL);
 
     try {
-      const res = await axios.put(signedURL, blob, {
+      const res = await axios.put(signedWriteURL, blob, {
         headers: {
           "Content-Type": "application/octet-stream",
         },
       });
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
 
     setUpdating(false);
     setPreviewImage(false);
