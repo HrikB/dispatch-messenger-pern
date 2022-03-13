@@ -52,13 +52,18 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
     console.log(signedURL);
 
     try {
-      const res = await axios.put(signedURL, formdata);
+      const res = await axios.put(signedURL, blob, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+      });
       console.log(res);
     } catch (err) {
       console.error(err);
     }
 
     setUpdating(false);
+    setPreviewImage(false);
   };
 
   return (

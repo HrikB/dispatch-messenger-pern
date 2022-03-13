@@ -1,5 +1,6 @@
 import { Resolver, Query } from "type-graphql";
 import { bucket } from "../helpers";
+import { v4 } from "uuid";
 
 @Resolver()
 class CloudResolver {
@@ -9,7 +10,7 @@ class CloudResolver {
       version: "v4" as "v4",
       action: "write" as "write",
       expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-      contentType: "image/png",
+      contentType: "application/octet-stream",
     };
 
     // await bucket.setCorsConfiguration([
@@ -21,7 +22,7 @@ class CloudResolver {
     //   },
     // ]);
 
-    const [url] = await bucket.file("photo").getSignedUrl(options);
+    const [url] = await bucket.file(`images/${v4()}.png`).getSignedUrl(options);
 
     return url;
   }

@@ -39,7 +39,8 @@
     "socket.io-client": "^4.4.1",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.41",
-    "urql": "^2.0.6"
+    "urql": "^2.0.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -52,6 +53,7 @@
     "@types/react": "17.0.38",
     "@types/react-avatar-editor": "^12.0.0",
     "@types/supertest": "^2.0.11",
+    "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.2",
     "chai": "^4.3.6",
     "chai-graphql": "^4.0.0",
