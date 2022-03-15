@@ -25,18 +25,18 @@ class Users extends BaseEntity {
   updatedAt = new Date();
 
   @Field(() => String)
-  @Column()
+  @Column({ type: "varchar" })
   firstName: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ type: "varchar" })
   lastName: string;
 
   @Field(() => String)
-  @Column({ unique: true, nullable: false })
+  @Column({ type: "varchar", unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: false })
+  @Column({ type: "varchar", nullable: false })
   password: string;
 
   @Field(() => String, { nullable: true })
