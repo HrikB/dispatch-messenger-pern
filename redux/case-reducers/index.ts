@@ -5,7 +5,4 @@ export {
   updateUserRequest,
   updateUserSuccess,
 } from "./userReducers";
-<<<<<<< HEAD
-=======
 export { addFriend, removeFriend } from "./friendsReducers";
->>>>>>> 15c69c0 (reinit)
