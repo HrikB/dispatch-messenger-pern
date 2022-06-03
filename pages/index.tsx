@@ -1,6 +1,7 @@
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
+  NextPageContext,
   NextPage,
   PreviewData,
 } from "next";
@@ -9,7 +10,7 @@ import { useSelectUser } from "../hooks";
 import { Sidebar, Friends, Loading } from "../components";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import { validateAccessToken } from "../server/helpers";
+import { validateAccessToken } from "../server/helpers/jwt";
 import { Users } from "../server/entity";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../types";
@@ -22,18 +23,20 @@ interface HomeProps {
   user: User;
 }
 
-const Home: NextPage<HomeProps> = ({ user: userProp }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({ user }: HomeProps) => {
   const dispatch = useDispatch();
-  const user = useSelectUser();
+  const userRedux = useSelectUser();
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(setUserAction(userProp));
+    if (user !== null) dispatch(setUserAction(user));
   }, []);
+
+  if (userRedux === null && user !== null) return <Loading />;
 
   return (
     <div className="grid place-items-center bg-background h-screen w-screen relative overflow-x-hidden">
-      {user === null ? (
+      {user === null && userRedux == null ? (
         <Login />
       ) : (
         <div className="flex bg-black h-app w-app rounded-2xl shadow-app">
@@ -49,13 +52,11 @@ const Home: NextPage<HomeProps> = ({ user: userProp }: HomeProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
-) => {
-  if (!context.req.cookies) return { props: {} };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  if (!context.req.cookies) return { props: { user: null } };
 
   const { accessToken } = context.req.cookies;
-  if (!accessToken) return { props: {} };
+  if (!accessToken) return { props: { user: null } };
 
   const payload: string | JwtPayload | null = await validateAccessToken(
     accessToken

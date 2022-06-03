@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import { Middleware } from "redux";
+=======
+import { Middleware, AnyAction } from "redux";
+>>>>>>> 15c69c0 (reinit)
 import { io, Socket } from "socket.io-client";
 import {
   setUserAction,
   removeUserAction,
   updateUserRequestAction,
+<<<<<<< HEAD
   updateUserSuccessAction,
 } from "../actions";
 import {
@@ -11,12 +16,21 @@ import {
   ClientToServerEvents,
   UserEvents,
 } from "../../types";
+=======
+} from "../actions";
+import { ServerToClientEvents, ClientToServerEvents } from "../../types";
+import { onConnect, emitUpdate as emitUpdateUser } from "../socket";
+>>>>>>> 15c69c0 (reinit)
 import { RootState } from "../reducer";
 
 const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
   let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
+<<<<<<< HEAD
   return (next) => (action) => {
+=======
+  return (next) => (action: AnyAction) => {
+>>>>>>> 15c69c0 (reinit)
     if (setUserAction.match(action)) {
       socket = io(
         `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_DEV_PORT}`,
@@ -25,6 +39,7 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
         }
       );
 
+<<<<<<< HEAD
       socket.on("connect", () => {
         const { firstName, lastName } = action.payload;
         console.log(
@@ -44,6 +59,13 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
         });
       });
     }
+=======
+      onConnect(socket, action);
+    }
+
+    if (updateUserRequestAction.match(action))
+      emitUpdateUser(socket, action, next);
+>>>>>>> 15c69c0 (reinit)
 
     if (removeUserAction.match(action)) socket.disconnect();
 

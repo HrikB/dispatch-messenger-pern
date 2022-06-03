@@ -28,6 +28,7 @@ module.exports = {
         error: "rgb(220 38 38)",
         disabled: "#525252",
         "edit-picture-background": "#403d3d",
+        "add-friend-background": "#424242",
         focus: "#006eff"
       },
       fontSize: {

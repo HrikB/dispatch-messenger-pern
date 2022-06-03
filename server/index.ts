@@ -1,10 +1,17 @@
 import "reflect-metadata";
+<<<<<<< HEAD
 import { bucket } from "./helpers";
+=======
+>>>>>>> 15c69c0 (reinit)
 import express, { Request, Response } from "express";
 import { buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
 import next from "next";
+<<<<<<< HEAD
 import { UserResolver, CloudResolver } from "./resolvers";
+=======
+import { UserResolver } from "./resolvers";
+>>>>>>> 15c69c0 (reinit)
 import dotenv from "dotenv";
 import ORMConfig from "./ormconfig";
 import { createConnection } from "typeorm";
@@ -31,7 +38,7 @@ app.prepare().then(async () => {
   }
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, CloudResolver],
+    resolvers: [UserResolver],
   });
 
   const server = new ApolloServer({
