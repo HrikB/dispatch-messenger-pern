@@ -3,7 +3,7 @@ import { useDelayUnmount, useOutOfBoundsClick } from "../../../hooks";
 import { IconButton, Avatar } from "@mui/material";
 import { firstCaps } from "../../../utils";
 import EditInfo from "./EditInfo";
-import { useSelectUser } from "../../../hooks";
+import { useUser } from "../../../hooks";
 import { User } from "../../../types";
 
 interface DefaultMenuProps {
@@ -19,7 +19,7 @@ function DefaultMenu({ preview }: DefaultMenuProps) {
   useOutOfBoundsClick(editRef, () => setIsEditMounted(false));
 
   const [toUpdate, setToUpdate] = useState<string>(profileFields[0]);
-  const { firstName, lastName, email, profilePic } = useSelectUser() as User;
+  const [{ firstName, lastName, email, profilePic }] = useUser();
   const userData = [firstName, lastName, email];
 
   const fileInput = useRef<HTMLInputElement>(null);
@@ -39,7 +39,10 @@ function DefaultMenu({ preview }: DefaultMenuProps) {
           onClick={() => fileInput.current && fileInput.current.click()}
         >
           <IconButton className="!p-0">
-            <Avatar className="!w-32 !h-32" src={profilePic} />
+            <Avatar
+              className="!w-32 !h-32"
+              src={profilePic === null ? undefined : profilePic}
+            />
             <div className="pointer-events-none absolute bottom-0 h-full rounded-[50%] w-full duration-200 opacity-0 group-hover:bg-editPicture flex flex-col !z-20 justify-center items-center group-hover:opacity-100">
               <h5 className="w-min text-sm font-bold">CHANGE AVATAR</h5>
             </div>

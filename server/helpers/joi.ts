@@ -61,4 +61,5 @@ export const updateSchema = Joi.object({
       "string.pattern.base":
         "This field cannot have spaces, numbers, or symbols",
     }),
+  profilePic: Joi.string(),
 });

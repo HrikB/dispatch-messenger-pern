@@ -6,11 +6,8 @@ import {
   SetStateAction,
 } from "react";
 import Loading from "../../Loading";
-import { useSelectUser } from "../../../hooks";
-import {
-  useAppDispatch as useDispatch,
-  updateUserRequestAction,
-} from "../../../redux";
+import { useUser } from "../../../hooks";
+import { useAppDispatch as useDispatch } from "../../../redux";
 import { ErrorResponse } from "../../../types";
 
 export interface editInfoProps {
@@ -25,12 +22,23 @@ const EditInfo = forwardRef(
   ({ className, toUpdate, setIsEditMounted }: editInfoProps, ref) => {
     const dispatch = useDispatch();
 
-    const user = useSelectUser();
+    const [user, updateUser] = useUser();
     const [updating, setUpdating] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
     const [updatedInfo, setUpdatedInfo] = useState<string>("");
 
-    const save = async (
+    const saveSuccess = () => {
+      setUpdating(false);
+      setError("");
+      setIsEditMounted(false);
+    };
+
+    const saveError = (err: unknown) => {
+      setUpdating(false);
+      setError((err as ErrorResponse).errorDetails);
+    };
+
+    const save = (
       e:
         | React.FormEvent<HTMLFormElement>
         | React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -39,30 +47,22 @@ const EditInfo = forwardRef(
       if (updatedInfo.length === 0) return;
       const id = { id: user.id };
 
-      try {
-        setUpdating(true);
-        switch (toUpdate) {
-          case "first name":
-            await dispatch(
-              updateUserRequestAction({ firstName: updatedInfo, ...id })
-            );
-            break;
-          case "last name":
-            await dispatch(
-              updateUserRequestAction({ lastName: updatedInfo, ...id })
-            );
-            break;
-          case "email":
-            await dispatch(
-              updateUserRequestAction({ email: updatedInfo, ...id })
-            );
-        }
-        setUpdating(false);
-        setError("");
-        setIsEditMounted(false);
-      } catch (err) {
-        setUpdating(false);
-        setError((err as ErrorResponse).errorDetails);
+      setUpdating(true);
+      switch (toUpdate) {
+        case "first name":
+          updateUser({ firstName: updatedInfo, ...id })
+            .then(saveSuccess)
+            .catch(saveError);
+          break;
+        case "last name":
+          updateUser({ lastName: updatedInfo, ...id })
+            .then(saveSuccess)
+            .catch(saveError);
+          break;
+        case "email":
+          updateUser({ email: updatedInfo, ...id })
+            .then(saveSuccess)
+            .catch(saveError);
       }
     };
 

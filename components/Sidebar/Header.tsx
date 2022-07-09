@@ -1,10 +1,6 @@
 import { IconButton, Avatar } from "@mui/material";
 import { useState, useRef } from "react";
-import {
-  useDelayUnmount,
-  useOutOfBoundsClick,
-  useSelectUser,
-} from "../../hooks";
+import { useDelayUnmount, useOutOfBoundsClick, useUser } from "../../hooks";
 import { ProfileMenu, ProfileOptions } from "./Profile";
 import Image from "next/image";
 
@@ -12,7 +8,7 @@ const buttonCSS =
   "my-[3px] box-border h-fit w-full bg-transparent p-[3px] text-[80%] hover:bg-[#403d3d] rounded";
 
 function Header() {
-  const user = useSelectUser();
+  const [user] = useUser();
 
   const [isOpenMounted, setIsOpenMounted] = useState<boolean>(false);
   const openProfile = useDelayUnmount(isOpenMounted, 180);

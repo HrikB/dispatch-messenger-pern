@@ -7,7 +7,7 @@ import { updateUserSuccessAction } from "../../../actions";
 import { Socket } from "socket.io-client";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
-export default (
+export const emitUpdate = (
   socket: Socket<ServerToClientEvents, ClientToServerEvents>,
   action: AnyAction,
   next: Dispatch<AnyAction>
@@ -22,3 +22,5 @@ export default (
     });
   });
 };
+
+export default emitUpdate;

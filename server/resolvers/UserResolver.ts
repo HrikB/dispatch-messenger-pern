@@ -14,7 +14,7 @@ import { AuthenticationError, UserInputError } from "apollo-server-express";
 import { MyContext } from "../types";
 import { v4 } from "uuid";
 import crypto from "crypto";
-import { UnpublishedOutlined } from "@mui/icons-material";
+import imageKit from "../image-kit";
 
 @ObjectType()
 class SignatureData {
@@ -47,6 +47,15 @@ class UserResolver {
       expire,
       signature,
     };
+  }
+
+  @Query(() => String)
+  getProfilePic(@Arg("id") id: string) {
+    return (
+      imageKit.url({
+        path: `/${id}/profile_pic`,
+      }) + "?updatedAt=1"
+    );
   }
 
   @Mutation(() => Users)

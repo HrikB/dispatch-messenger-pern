@@ -2,17 +2,16 @@ import {
   useAppDispatch as useDispatch,
   useAppSelector as useSelector,
 } from "../redux";
-import { updateUserRequest } from "../redux/actions/userActions";
+import { updateUserRequestAction } from "../redux";
 import { User } from "../types";
-import { useCallback } from "react";
 
-export const useUser = () => {
+export const useUser = (): [User, (changes: User) => Promise<any>] => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userReducer.user);
+  const user: User = useSelector((state) => state.userReducer.user);
 
-  const updateUser = useCallback((changes: User) => {
-    dispatch(updateUserRequest({ ...changes }));
-  }, []);
+  const updateUser = async (changes: User) =>
+    await dispatch(updateUserRequestAction({ ...changes }));
+
   return [user, updateUser];
 };
 

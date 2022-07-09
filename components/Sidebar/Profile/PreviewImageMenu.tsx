@@ -11,8 +11,7 @@ import { Slider } from "@mui/material";
 import Loading from "../../Loading";
 import { useQuery } from "urql";
 import axios from "axios";
-import { log } from "console";
-
+import { useUser } from "../../../hooks";
 interface PreviewImageProps {
   image: string;
   setPreviewImage: Dispatch<SetStateAction<boolean>>;
@@ -28,12 +27,17 @@ const signatureDataQuery = `query {
   }
 }`;
 
+const profilePicQuery = `query q($id: String!) {
+  getProfilePic(id: $id) 
+}`;
+
 const imageKitPublicKey = "public_U92dWyWOxCEY8CllgVe/Jx0EBes=";
 
 function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
   const editor = useRef<AvatarEditor>();
   const [zoom, setZoom] = useState<number>();
   const [updating, setUpdating] = useState<boolean>(false);
+  const [user, updateUser] = useUser();
 
   const [{ data, error }] = useQuery<{
     getSignatureData: { token: string; expire: number; signature: string };
@@ -64,19 +68,24 @@ function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
     formdata.append("file", blob);
     formdata.append("publicKey", imageKitPublicKey);
     formdata.append("token", token);
-    formdata.append("fileName", token);
-    console.log(expire);
-
+    formdata.append("fileName", "profile_pic");
     formdata.append("expire", expire.toString());
     formdata.append("signature", signature);
+    formdata.append("folder", `/${user.id}`);
+    formdata.append("useUniqueFileName", "false");
 
     try {
       await axios.post(
         "https://upload.imagekit.io/api/v1/files/upload",
         formdata
       );
+      const res = await axios.post("http://localhost:3001/graphql", {
+        query: profilePicQuery,
+        variables: { id: user.id },
+      });
+      updateUser({ id: user.id, profilePic: res.data.data.getProfilePic });
     } catch (err) {
-      console.error(err);
+      console.error({ ...(err as Error) });
     }
 
     setUpdating(false);

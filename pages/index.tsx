@@ -6,7 +6,7 @@ import type {
   PreviewData,
 } from "next";
 import Login from "./login";
-import { useSelectUser } from "../hooks";
+import { useUser } from "../hooks";
 import { Sidebar, Friends, Loading } from "../components";
 import { useRouter } from "next/router";
 import { validateAccessToken } from "../server/helpers/jwt";
@@ -14,7 +14,7 @@ import { Users } from "../server/entity";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../types";
 import { useAppDispatch as useDispatch, setUserAction } from "../redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createConnection } from "typeorm";
 import { wrapper } from "../redux";
 import ORMConfig from "../server/ormconfig";
@@ -25,7 +25,7 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = () => {
-  const user = useSelectUser();
+  const [user] = useUser();
   const router = useRouter();
 
   return (

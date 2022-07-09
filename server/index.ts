@@ -13,6 +13,7 @@ import { Server, Socket } from "socket.io";
 import { ClientToServerEvents, ServerToClientEvents } from "../types";
 import { disconnectHandler, userHandler } from "./socket-handlers";
 dotenv.config();
+import "./image-kit";
 
 const port = process.env.DEV_PORT || 3001;
 const dev = process.env.NODE_ENV !== "production";

@@ -12,7 +12,7 @@ import { RootState } from "../reducer";
 const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
   let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
-  return (next) => (action: AnyAction) => {
+  return (next) => async (action: AnyAction) => {
     if (setUserAction.match(action)) {
       socket = io(
         `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_DEV_PORT}`,
@@ -25,7 +25,7 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
     }
 
     if (updateUserRequestAction.match(action))
-      emitUpdateUser(socket, action, next);
+      await emitUpdateUser(socket, action, next);
 
     if (removeUserAction.match(action)) socket.disconnect();
 

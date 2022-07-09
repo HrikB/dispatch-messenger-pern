@@ -5,7 +5,7 @@ export interface User {
   firstName?: string;
   lastName?: string;
   email?: string;
-  profilePic: string | null;
+  profilePic?: string | null;
   friendsList?: string[];
   __typename?: string; //graphql
 }
