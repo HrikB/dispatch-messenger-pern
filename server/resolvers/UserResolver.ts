@@ -1,15 +1,52 @@
-import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Arg,
+  Ctx,
+  ObjectType,
+  Field,
+} from "type-graphql";
 import { Users } from "../entity";
 import { loginSchema, registerSchema, signAccessToken } from "../helpers";
 import bcrypt from "bcrypt";
 import { AuthenticationError, UserInputError } from "apollo-server-express";
 import { MyContext } from "../types";
+import { v4 } from "uuid";
+import crypto from "crypto";
+import { UnpublishedOutlined } from "@mui/icons-material";
+
+@ObjectType()
+class SignatureData {
+  @Field()
+  token: string;
+  @Field()
+  expire: number;
+  @Field()
+  signature: string;
+}
 
 @Resolver()
 class UserResolver {
   @Query(() => [Users])
   users() {
     return Users.find();
+  }
+
+  @Query(() => SignatureData)
+  getSignatureData() {
+    const token = v4();
+    const expire = parseInt((Date.now() / 1000).toString()) + 120;
+    const signature = crypto
+      .createHmac("sha1", process.env.IMAGE_KIT_PRIVATE || "")
+      .update(token + expire)
+      .digest("hex");
+
+    return {
+      token,
+      expire,
+      signature,
+    };
   }
 
   @Mutation(() => Users)

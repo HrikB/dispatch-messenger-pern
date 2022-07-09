@@ -20,49 +20,64 @@ interface PreviewImageProps {
 
 const buttonCSS = "my-2.5 mx-1 w-20 h-fit box-border py-1.5 rounded text-sm";
 
-const signedWriteURLQuery = `query {
-  getSignedURL
+const signatureDataQuery = `query {
+  getSignatureData {
+    token
+    expire
+    signature
+  }
 }`;
+
+const imageKitPublicKey = "public_U92dWyWOxCEY8CllgVe/Jx0EBes=";
 
 function PreviewImage({ image, setPreviewImage }: PreviewImageProps) {
   const editor = useRef<AvatarEditor>();
   const [zoom, setZoom] = useState<number>();
   const [updating, setUpdating] = useState<boolean>(false);
 
-  const [{ data, error }] = useQuery<{ getSignedURL: string }>({
-    query: signedWriteURLQuery,
+  const [{ data, error }] = useQuery<{
+    getSignatureData: { token: string; expire: number; signature: string };
+  }>({
+    query: signatureDataQuery,
+    requestPolicy: "network-only",
   });
 
-  console.log(data);
   if (error) console.error(error);
 
   const upload = async () => {
     setUpdating(true);
+
     if (!editor || !editor.current) return setUpdating(false);
-    console.log("editor");
 
     const canvas: HTMLCanvasElement = editor.current.getImageScaledToCanvas();
     const blob: Blob | null = await new Promise((resolve) =>
       canvas.toBlob(resolve)
     );
     if (blob === null) return setUpdating(false);
-    console.log("blob");
+
     const formdata = new FormData();
-    formdata.append("photo", blob);
 
     if (!data) return setUpdating(false);
-    console.log("data");
 
-    const signedWriteURL = data.getSignedURL;
-    console.log(signedWriteURL);
+    const { token, expire, signature } = data.getSignatureData;
+
+    formdata.append("file", blob);
+    formdata.append("publicKey", imageKitPublicKey);
+    formdata.append("token", token);
+    formdata.append("fileName", token);
+    console.log(expire);
+
+    formdata.append("expire", expire.toString());
+    formdata.append("signature", signature);
 
     try {
-      const res = await axios.put(signedWriteURL, blob, {
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-      });
-    } catch (err) {}
+      await axios.post(
+        "https://upload.imagekit.io/api/v1/files/upload",
+        formdata
+      );
+    } catch (err) {
+      console.error(err);
+    }
 
     setUpdating(false);
     setPreviewImage(false);

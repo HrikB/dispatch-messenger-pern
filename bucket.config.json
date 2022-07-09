@@ -1,8 +1,0 @@
-[
-  {
-    "maxAgeSeconds": 10,
-    "method": ["PUT"],
-    "origin": ["http://localhost:3001"],
-    "responseHeader": ["Content-Type", "Access-Control-Allow-Origin"]
-  }
-]
