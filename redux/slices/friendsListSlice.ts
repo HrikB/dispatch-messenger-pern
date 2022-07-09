@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FriendsListSliceState } from "../types";
 import { addFriend, removeFriend } from "../case-reducers";
 
-const initialState: FriendsListSliceState = {
+export const initialState: FriendsListSliceState = {
   friendsList: [],
 };
 

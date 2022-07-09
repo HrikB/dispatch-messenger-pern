@@ -1,15 +1,15 @@
-import {
-  configureStore,
-  applyMiddleware,
-  getDefaultMiddleware,
-} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { socketMiddleware } from "./middleware";
-import rootReducer from "./reducer";
+import { createWrapper } from "next-redux-wrapper";
+import masterReducer from "./reducer";
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(socketMiddleware),
-});
+export const makeStore = () =>
+  configureStore({
+    reducer: masterReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(socketMiddleware),
+  });
 
-export default store;
+export const wrapper = createWrapper(makeStore, { debug: true });
+
+export default makeStore;

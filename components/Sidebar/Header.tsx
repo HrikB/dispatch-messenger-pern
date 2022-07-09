@@ -43,7 +43,7 @@ function Header() {
         <IconButton onClick={() => setIsOpenMounted(!isOpenMounted)}>
           <Avatar
             className="relative max-w-[32px] max-h-[32px]"
-            src={user.profilePic}
+            src={user?.profilePic ? user?.profilePic : undefined}
           />
         </IconButton>
         {openProfile && (

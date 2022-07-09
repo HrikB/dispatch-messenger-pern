@@ -7,7 +7,7 @@ import {
 } from "../case-reducers";
 import { UserSliceState } from "../types";
 
-const initialState: UserSliceState = {
+export const initialState: UserSliceState = {
   user: null,
 };
 

@@ -1,8 +1,37 @@
-import { userReducer, friendsListReducer } from "./slices";
-import { combineReducers } from "@reduxjs/toolkit";
+import {
+  userReducer,
+  userInitialState,
+  friendsListReducer,
+  friendsListInitialState,
+} from "./slices";
+import {
+  AnyAction,
+  combineReducers,
+  createAction,
+  createReducer,
+} from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 
-const rootReducer = combineReducers({ userReducer, friendsListReducer });
+const initialState = {
+  userReducer: { ...userInitialState },
+  friendsListReducer: { ...friendsListInitialState },
+};
 
-export type RootState = ReturnType<typeof rootReducer>;
+const rootReducer = combineReducers({
+  userReducer,
+  friendsListReducer,
+});
 
-export default rootReducer;
+const masterReducer = (state = initialState, action: AnyAction) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      userReducer: { user: action.payload.userReducer.user },
+    };
+    return nextState;
+  } else return rootReducer(state, action);
+};
+
+export type RootState = ReturnType<typeof masterReducer>;
+
+export default masterReducer;
