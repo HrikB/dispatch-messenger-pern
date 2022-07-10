@@ -13,12 +13,9 @@ export const userHandler = (
   socket: Socket<ClientToServerEvents, ServerToClientEvents>
 ) => {
   socket.on(UserEvents.UPDATE_USER, async (userChanges, cb) => {
-    console.log("asd", userChanges);
     const { id } = userChanges;
-    console.log(1);
 
     const toUpdate: Partial<User> = Object.assign({}, userChanges);
-    console.log(2);
     delete toUpdate["id"];
 
     try {
