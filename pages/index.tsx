@@ -35,11 +35,9 @@ const Home: NextPage<HomeProps> = () => {
       ) : (
         <div className="flex bg-black h-app w-app rounded-2xl shadow-app">
           <Sidebar />
-          {
-            {
-              "/": <Friends />,
-            }[router.pathname]
-          }
+          {{
+            "/friends": <Friends />,
+          }[router.pathname] || <Friends />}
         </div>
       )}
     </div>

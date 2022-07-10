@@ -9,7 +9,7 @@ export interface ProfileOptionsProps {
 
 export const ProfileOptions = forwardRef(
   ({ className, buttonCSS, updateProfile }: ProfileOptionsProps, ref) => {
-    const [user, updateUser] = useUser();
+    const [_, updateUser] = useUser();
 
     const logOut = () => {
       updateUser(null);
