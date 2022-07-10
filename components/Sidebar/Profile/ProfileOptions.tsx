@@ -1,4 +1,5 @@
 import { ForwardedRef, forwardRef } from "react";
+import { useUser } from "../../../hooks";
 
 export interface ProfileOptionsProps {
   className: string;
@@ -8,7 +9,11 @@ export interface ProfileOptionsProps {
 
 export const ProfileOptions = forwardRef(
   ({ className, buttonCSS, updateProfile }: ProfileOptionsProps, ref) => {
-    const logOut = () => {};
+    const [user, updateUser] = useUser();
+
+    const logOut = () => {
+      updateUser(null);
+    };
 
     return (
       <div className={className} ref={ref as ForwardedRef<HTMLDivElement>}>
