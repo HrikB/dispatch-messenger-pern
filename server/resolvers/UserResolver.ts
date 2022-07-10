@@ -54,7 +54,7 @@ class UserResolver {
     return (
       imageKit.url({
         path: `/${id}/profile_pic`,
-      }) + "?updatedAt=1"
+      }) + `?updatedAt=${Date.now()}`
     );
   }
 
