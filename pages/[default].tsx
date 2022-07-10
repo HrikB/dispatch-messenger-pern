@@ -1,7 +1,6 @@
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
-  GetServerSidePropsResult,
   NextPage,
   PreviewData,
 } from "next";
@@ -35,9 +34,7 @@ const Home: NextPage<HomeProps> = () => {
       ) : (
         <div className="flex bg-black h-app w-app rounded-2xl shadow-app">
           <Sidebar />
-          {{
-            "/friends": <Friends />,
-          }[router.pathname] || <Friends />}
+          <Friends />
         </div>
       )}
     </div>

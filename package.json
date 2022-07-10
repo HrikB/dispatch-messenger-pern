@@ -28,7 +28,7 @@
     "imagekitio-react": "^1.1.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "next": "12.0.8",
+    "next": "^12.2.2",
     "next-redux-wrapper": "^7.0.5",
     "pg": "^8.7.1",
     "react": "17.0.2",
