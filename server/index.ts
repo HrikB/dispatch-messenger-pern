@@ -17,7 +17,9 @@ import "./image-kit";
 
 const port = process.env.DEV_PORT || 3001;
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dir: ".", dev });
+const hostname = "localhost";
+//@ts-ignore
+const app = next({ dir: ".", dev, port, hostname });
 const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
@@ -52,7 +54,15 @@ app.prepare().then(async () => {
     }
   );
 
-  app.all("*", (req: Request, res: Response) => {
+  // app.get("/l", (req, res, next) => {
+  //   res.redirect(301, "/login");
+  //   next();
+  // });
+
+  app.all("*", async (req: Request, res: Response) => {
+    // if (!req.headers.cookie && req.url !== "/login")
+    //   return res.redirect(301, "/login");
+
     return handle(req, res);
   });
 
