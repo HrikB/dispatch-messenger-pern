@@ -1,34 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   NextPage,
   PreviewData,
 } from "next";
-import Login from "./login";
-import { useUser, useWillMount } from "../hooks";
-import { Sidebar, Friends, Loading } from "../components";
-import { useRouter } from "next/router";
+import { Sidebar, Friends } from "../components";
 import { validateAccessToken } from "../server/helpers/jwt";
 import { Users } from "../server/entity";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../types";
-import { useAppDispatch as useDispatch, setUserAction } from "../redux";
+import { setUserAction } from "../redux";
 import { createConnection } from "typeorm";
 import { wrapper } from "../redux";
 import ORMConfig from "../server/ormconfig";
 import { ParsedUrlQuery } from "querystring";
-import { ServerResponse } from "http";
+import { redirect } from "../utils";
 
 interface HomeProps {
   user: User;
 }
 
 const Home: NextPage<HomeProps> = () => {
-  const mounted = useWillMount();
-  const [user] = useUser();
-  const router = useRouter();
-
   return (
     <div className="grid place-items-center bg-background h-screen w-screen relative overflow-x-hidden">
       <div className="flex bg-black h-app w-app rounded-2xl shadow-app">
@@ -46,7 +39,6 @@ export const getServerSideProps: GetServerSideProps<
 > = wrapper.getServerSideProps<{ user: User | null }>(
   (store) =>
     async (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
-      console.log(context.req.cookies);
       if (Object.keys(context.req.cookies).length === 0)
         return redirectLogin(context);
 
@@ -69,6 +61,9 @@ export const getServerSideProps: GetServerSideProps<
       if (result === undefined) return redirectLogin(context);
       const user: User = { ...result, id: result?.id.toString() };
 
+      if (!context.req.url?.startsWith("/t/") && context.req.url !== "/friends")
+        redirect(context, "/friends");
+
       store.dispatch(setUserAction(user));
 
       return { props: { user: user } };
@@ -78,9 +73,7 @@ export const getServerSideProps: GetServerSideProps<
 export const redirectLogin = (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => {
-  context.res.setHeader("Location", "/login");
-  context.res.statusCode = 302;
-  context.res.end();
+  redirect(context, "/login");
   return { props: { user: null } };
 };
 

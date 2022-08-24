@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Loading } from "..";
 import { useMutation } from "urql";
 import { User } from "../../types";
 import { useAppDispatch, setUserAction } from "../../redux";
+import { useRouter } from "next/router";
 
 const buttonInputStyles = "box-border p-2.5 w-full my-1 rounded";
 
@@ -32,7 +33,8 @@ const loginMutation = `mutation(
 
 const LoginBox = ({ setRegisterModal }: any) => {
   const [loginResult, login] = useMutation(loginMutation);
-  const { fetching } = loginResult;
+  const [signingIn, setSigningIn] = useState<boolean>(false);
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -45,6 +47,7 @@ const LoginBox = ({ setRegisterModal }: any) => {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    setSigningIn(true);
     const obj = await login({
       email: fieldState[0][0],
       password: fieldState[1][0],
@@ -68,12 +71,13 @@ const LoginBox = ({ setRegisterModal }: any) => {
           errorState[1][1](errMsg);
           break;
       }
-
+      setSigningIn(false);
       return;
     }
 
     const user: User = data.loginUser;
     dispatch(setUserAction(user));
+    router.push("/friends");
   };
 
   const setLogDefaults = () => {
@@ -114,7 +118,7 @@ const LoginBox = ({ setRegisterModal }: any) => {
           className={`${buttonInputStyles} bg-dispatch mb-8 font-bold hover:bg-[#690169]`}
           onClick={signIn}
         >
-          {fetching ? <Loading /> : <h3>Log In</h3>}
+          {signingIn ? <Loading /> : <h3>Log In</h3>}
         </button>
         {/* <h5
               className="error__message"
