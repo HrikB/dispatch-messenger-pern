@@ -40,8 +40,7 @@ export const getServerSideProps: GetServerSideProps<
 > = wrapper.getServerSideProps<{}>(
   (store) =>
     async (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
-      if (Object.keys(context.req.cookies).length === 0)
-        return redirectFriends(context);
+      if (Object.keys(context.req.cookies).length === 0) return { props: {} };
 
       const { accessToken } = context.req.cookies;
       if (!accessToken) return { props: {} };
