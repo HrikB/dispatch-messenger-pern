@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { Tabs } from "./_types";
 import { useState } from "react";
-import All from "./All";
+import All from "./All.server";
 import Pending from "./Pending";
 import AddFriend from "./AddFriend";
 
