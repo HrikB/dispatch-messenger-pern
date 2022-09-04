@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Suspense } from "react";
+import dynamic from "next/dynamic";
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -21,12 +22,22 @@ interface HomeProps {
   user: User;
 }
 
+const DynamicSidebar = dynamic(() => import("../components/Sidebar"), {
+  suspense: true,
+});
+
+const DynamicFriends = dynamic(() => import("../components/Friends"), {
+  suspense: true,
+});
+
 const Home: NextPage<HomeProps> = () => {
   return (
     <div className="grid place-items-center bg-background h-screen w-screen relative overflow-x-hidden">
       <div className="flex bg-black h-app w-app rounded-2xl shadow-app">
+        {/* <Suspense fallback={`Loading...`}> */}
         <Sidebar />
         <Friends />
+        {/* </Suspense> */}
       </div>
     </div>
   );

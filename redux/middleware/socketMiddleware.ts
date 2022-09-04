@@ -35,8 +35,10 @@ const socketMiddleware: Middleware<unknown, RootState> = ({ dispatch }) => {
     }
 
     if (updateUserRequestAction.match(action))
+      //@ts-ignore
       await emitUpdateUser(socket, action, next);
 
+    //@ts-ignore
     if (removeUserAction.match(action)) socket.disconnect();
 
     next(action);
